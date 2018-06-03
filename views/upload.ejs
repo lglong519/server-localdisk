@@ -4,37 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Document share</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Localdisk</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <form action="/uploader" onsubmit="return checkVal()" method="post" enctype="multipart/form-data">
+    <form action="/upload" id="upform" onsubmit="return checkVal()" method="post" enctype="multipart/form-data">
         <!--注意此处的name和后端files的属性对应-->
-        <div class="flex-column align-center btngroup">
-            <div>待传文件：
-                <span id='fileName'>无</span>
+        <div class="flex-column align-stretch btngroup border-bottom">
+            <div class="border-bottom">
+					待传文件：<span id='fileName'>无</span>
             </div>
-            <div class="upload">
-                <input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
-                <span>选择上传文件</span>
-            </div>
-            <div>
-                <input type="submit" value="开始上传" class="upload-btn" id='submit'>
-                <input type="reset" value="重置" class="upload-btn" id='reset'>
+            <div class="flex-row align-center justify-between flex">
+					<div class="upload">
+						<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
+						<span>选择文件</span>
+					</div>
+					<div>
+						<input type="submit" value="开始上传" class="upload-btn" id='confirm'>
+						<input type="reset" value="重置" class="upload-btn reset" id='reset'>
+					</div>
             </div>
         </div>
     </form>
     <ol class='files'>
-        <%for(var i=0;i<list.length;i++){%>
-            <li>
-                <a href="gallery/<%=list[i]%>" target="_blank">
-                    <%=list[i]%>
-                </a>
+        <%for(var i=0,b=0;i<list.length;i++){%>
+            <li class="border-bottom">
+					<% b=i<9?'0'+(i+1):i+1 %>
+					<div class="rank">
+						<span><%=b%></span>
+					</div>
+					<div>
+						<% if (/(jpg|gif|png|jpeg|ico)$/i.test(list[i])) { %>
+							<img class="img-small" src="<%=url+list[i]%>" />
+						<% } %>
+							<a href="<%=url+list[i]%>" target="<%=url+targets[i]%>">
+								<%=list[i]%>
+							</a>
+					</div>
+					
             </li>
-            <%}%>
-                </ul>
-                <script src="js/upload.js"></script>
+			<%}%>
+	</ol>
+	<% if (list.length==0) { %>
+		<h1 class="empty">Empty</h1>
+	<% } %>
+	<script src="/js/upload.js"></script>
 </body>
 
 </html>
