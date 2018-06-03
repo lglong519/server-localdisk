@@ -1,6 +1,6 @@
 const nconf = require('nconf');
 
-const redirect = (req, res, next) => {
+const initUrl = (req, res, next) => {
 	let dir = nconf.get('UPLOAD_DIR');
 	let { url } = req;
 	let suffix = '';
@@ -18,8 +18,8 @@ const redirect = (req, res, next) => {
 			suffix = referer.replace(/([^g]*)?gallery\//, '');
 		}
 	}
-	req.practicalDir = `${dir + suffix}`;
+	req.practicalDir = decodeURI(`${dir + suffix}`);
 	next();
 };
 
-module.exports.redirect = redirect;
+module.exports.initUrl = initUrl;

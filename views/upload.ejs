@@ -2,53 +2,82 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Localdisk</title>
-    <link rel="stylesheet" href="/css/style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Localdisk</title>
+	<link rel="icon" href="/folder.png">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <form action="/upload" id="upform" onsubmit="return checkVal()" method="post" enctype="multipart/form-data">
-        <!--注意此处的name和后端files的属性对应-->
-        <div class="flex-column align-stretch btngroup border-bottom">
-            <div class="border-bottom">
-					待传文件：<span id='fileName'>无</span>
-            </div>
-            <div class="flex-row align-center justify-between flex">
-					<div class="upload">
-						<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
-						<span>选择文件</span>
+	<div class="comtainer">
+		<form action="/upload" id="upform" onsubmit="return checkVal()" method="post" enctype="multipart/form-data">
+			<!--注意此处的name和后端files的属性对应-->
+			<div class="flex-column align-stretch btngroup border-bottom">
+					<div class="border-bottom waiting">
+						待传文件：<span id='fileName'>无</span>
 					</div>
-					<div>
-						<input type="submit" value="开始上传" class="upload-btn" id='confirm'>
-						<input type="reset" value="重置" class="upload-btn reset" id='reset'>
+					<div class="flex-row align-center justify-between flex">
+						<div class="upload">
+							<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
+							<span>选择文件</span>
+						</div>
+						<div>
+							<input type="submit" value="开始上传" class="upload-btn disabled" id='confirm'>
+							<input type="reset" value="重置" class="upload-btn reset disabled" id='reset'>
+						</div>
 					</div>
-            </div>
-        </div>
-    </form>
-    <ol class='files'>
-        <%for(var i=0,b=0;i<list.length;i++){%>
-            <li class="border-bottom">
-					<% b=i<9?'0'+(i+1):i+1 %>
-					<div class="rank">
-						<span><%=b%></span>
-					</div>
-					<div>
-						<% if (/(jpg|gif|png|jpeg|ico)$/i.test(list[i])) { %>
-							<img class="img-small" src="<%=url+list[i]%>" />
-						<% } %>
-							<a href="<%=url+list[i]%>" target="<%=url+targets[i]%>">
-								<%=list[i]%>
-							</a>
-					</div>
-					
-            </li>
-			<%}%>
-	</ol>
-	<% if (list.length==0) { %>
-		<h1 class="empty">Empty</h1>
-	<% } %>
+			</div>
+		</form>
+		<% if (crumbs.length>1){%>
+			<div class="crumbs border-bottom">
+				<a class="directory" href="<%=crumbs[crumbs.length-2][1]%>">
+					<span>上一级</span>
+				</a>
+				<span class="placeholder">|</span>
+				<a class="directory" href="/">
+					全部文件
+				</a>
+				<%for(var j=1;j<crumbs.length;j++){%>
+					<span class="placeholder">></span>
+					<% if (j<crumbs.length-1){%>
+						<a class="directory" href="<%=crumbs[j][1]%>"><%=crumbs[j][0] %></a>
+					<%}else{%>
+						<span>
+							<%=crumbs[j][0] %>
+						</span>
+					<%}%>
+				<%}%>
+			</div>
+		<%}%>
+		<ol class='files'>
+			<%for(var i=0,b=0;i<list.length;i++){%>
+					<li class="border-bottom">
+						<% b=i<9?'0'+(i+1):i+1 %>
+						<div class="rank">
+							<span><%=b%></span>
+						</div>
+						<div>
+							<% if (/(jpg|gif|png|jpeg|ico)$/i.test(list[i][0])) { %>
+								<img class="img-small" src="<%=url+list[i][0]%>" />
+							<% } %>
+								<% if (list[i][1]=='_self') { %>
+									<img class="img-small" src="/folder.svg" />
+								<% } %>
+								<a href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
+									<%=list[i][0]%>
+								</a>
+						</div>
+						<div class="size">
+							<span><%=list[i][2]%></span>
+						</div>
+					</li>
+				<%}%>
+		</ol>
+		<% if (list.length==0) { %>
+			<h1 class="empty">Empty</h1>
+		<% } %>
+	</div>
 	<script src="/js/upload.js"></script>
 </body>
 

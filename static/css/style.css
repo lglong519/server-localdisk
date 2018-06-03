@@ -1,171 +1,219 @@
-    /*flex  */
+	body {
+	   font-size: 14px;
+	   background-color: #EFF3F8;
+	}
 
-    .flex-row {
-       display: -webkit-box;
-       display: flex;
-       flex-direction: row
-    }
+	a {
+	   text-decoration: none;
+	}
 
-    .flex-column {
-       display: -webkit-box;
-       display: flex;
-       flex-direction: column
-    }
+	.comtainer {
+	   max-width: 768px;
+	   margin: 0 auto;
+	   background-color: #fff;
+	   padding: 15px;
+	}
 
-    .align-center {
-       align-items: center;
-    }
+	/*flex  */
 
-    .align-stretch {
-       align-items: stretch;
-    }
+	.flex-row {
+	   display: -webkit-box;
+	   display: flex;
+	   flex-direction: row
+	}
 
-    .width-100 {
-       width: 100;
-    }
+	.flex-column {
+	   display: -webkit-box;
+	   display: flex;
+	   flex-direction: column
+	}
 
-    .justify-between {
-       justify-content: space-between;
-    }
+	.align-center {
+	   align-items: center;
+	}
 
-    .self-start {
-       align-self: flex-start;
-    }
+	.align-stretch {
+	   align-items: stretch;
+	}
 
-    .self-base {
-       align-self: baseline
-    }
+	.width-100 {
+	   width: 100;
+	}
 
-    .flex {
-       flex: 1;
-    }
+	.justify-between {
+	   justify-content: space-between;
+	}
 
-    .text-center {
-       text-align: center;
-    }
+	.self-start {
+	   align-self: flex-start;
+	}
 
-    .upload {
-       overflow: hidden;
-       position: relative;
-       display: block;
-       height: 35px;
-       line-height: 35px;
-       margin: 5px 0 5px;
-       padding: 0 10px;
-       border: 1px solid #38f;
-       text-align: center;
-       background-color: #38f;
-       color: #fff;
-       font-size: 15px;
-    }
+	.self-base {
+	   align-self: baseline
+	}
 
-    .upload:hover {
-       background-color: #317ef3;
-    }
+	.flex {
+	   flex: 1;
+	}
 
-    .select-btn {
-       display: block;
-       position: absolute;
-       left: 0;
-       top: 0;
-       right: 0;
-       bottom: 0;
-       opacity: 0;
-       background-color: transparent;
-       cursor: pointer;
-    }
+	.text-center {
+	   text-align: center;
+	}
 
-    .upload>span {
-       display: inline;
-       position: static;
-    }
+	.upload {
+	   overflow: hidden;
+	   position: relative;
+	   display: block;
+	   height: 35px;
+	   line-height: 35px;
+	   margin: 5px 0 5px;
+	   padding: 0 10px;
+	   border: 1px solid #38f;
+	   text-align: center;
+	   background-color: #38f;
+	   color: #fff;
+	   font-size: 15px;
+	}
 
-    .upload-btn {
-       width: 100px;
-       height: 35px;
-       line-height: 35px;
-       background-color: #fff;
-       color: #38f;
-       border: 1px solid #38f;
-       font-size: 15px;
-       font-weight: 500;
-       box-sizing: border-box;
-    }
+	.upload:hover {
+	   background-color: #317ef3;
+	}
 
-    .upload-btn:hover {
-       background-color: #317ef3;
-       color: #fff;
-    }
+	.select-btn {
+	   display: block;
+	   z-index: 10;
+	   position: absolute;
+	   left: 0;
+	   top: 0;
+	   right: 0;
+	   bottom: 0;
+	   opacity: 0;
+	   background-color: transparent;
+	   cursor: pointer;
+	}
 
-    .upload-btn:active {
-       background-color: #3075dc;
-    }
+	.upload>span {
+	   display: inline;
+	   position: static;
+	}
 
-    .files {
-       list-style: none;
-       padding-left: 0;
-    }
+	.upload-btn {
+	   width: 100px;
+	   height: 35px;
+	   line-height: 35px;
+	   background-color: #fff;
+	   color: #38f;
+	   border: 1px solid #38f;
+	   font-size: 15px;
+	   font-weight: 500;
+	   box-sizing: border-box;
+	}
 
-    .files a {
-       display: inline-block;
-       text-decoration: none;
-       color: #4C9541;
-       height: 30px;
-       line-height: 30px;
-       word-break: break-all;
-    }
+	.upload-btn:hover {
+	   background-color: #317ef3;
+	   color: #fff;
+	}
 
-    .files li {
-       position: relative;
-       padding: 5px 0 5px 35px;
-    }
+	.upload-btn:active {
+	   background-color: #3075dc;
+	}
 
-    .rank {
-       position: absolute;
-       left: 5px;
-       top: 0;
-       display: table;
-       height: 41px;
-    }
+	.files {
+	   list-style: none;
+	   padding-left: 0;
+	}
 
-    .rank span {
-       display: table-cell;
-       vertical-align: middle;
-    }
+	.files a {
+	   display: inline-block;
+	   text-decoration: none;
+	   color: #4C9541;
+	   height: 30px;
+	   line-height: 30px;
+	   word-break: break-all;
+	}
 
-    .img-small {
-       height: 30px;
-       vertical-align: middle;
-       margin: 0 5px
-    }
+	.files li {
+	   position: relative;
+	   padding: 5px 0 5px 35px;
+	}
 
-    .empty {
-       text-align: center
-    }
+	.rank {
+	   z-index: 10;
+	   position: absolute;
+	   left: 5px;
+	   top: 0;
+	   display: table;
+	   height: 41px;
+	}
 
-    .not-found {
-       width: 100vw;
-       height: 100vh;
-    }
+	.rank span,
+	.size span {
+	   display: table-cell;
+	   vertical-align: middle;
+	}
 
-    .not-found img {
-       width: 100%;
-    }
+	.img-small {
+	   height: 30px;
+	   vertical-align: middle;
+	   margin: 0 5px
+	}
 
-    .disabled,
-    .disabled:hover {
-       background-color: #b0b0b0;
-       color: #fff;
-    }
+	.empty {
+	   text-align: center
+	}
 
-    .border-top {
-       border-top: 1px solid #e0e0e0;
-    }
+	.not-found {
+	   width: 100vw;
+	   height: 100vh;
+	}
 
-    .border-bottom {
-       border-bottom: 1px solid #e0e0e0;
-    }
+	.not-found img {
+	   width: 100%;
+	}
 
-    .border {
-       border: 1px solid #e0e0e0;
-    }
+	.disabled,
+	.disabled:hover {
+	   background-color: #D9D9D9;
+	   color: #fff;
+	}
+
+	.border-top {
+	   border-top: 1px solid #e0e0e0;
+	}
+
+	.border-bottom {
+	   border-bottom: 1px solid #e0e0e0;
+	}
+
+	.border {
+	   border: 1px solid #e0e0e0;
+	}
+
+	.directory {
+	   color: #4287ed;
+	}
+
+	.placeholder {
+	   padding: 0 2px;
+	   color: #c5d8f3;
+	}
+
+	.crumbs {
+	   margin-top: 10px;
+	   padding-bottom: 10px;
+	}
+
+	.waiting {
+	   padding-bottom: 10px;
+	}
+
+	.size {
+	   z-index: 10;
+	   position: absolute;
+	   right: 0;
+	   top: 0;
+	   display: table;
+	   padding: 0 10px 0 5px;
+	   height: 40px;
+	   background-color: #fff;
+	}

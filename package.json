@@ -1,6 +1,6 @@
 {
   "name": "share-files",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "dev.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "filesize": "^3.6.1",
     "formidable": "^1.1.1",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",

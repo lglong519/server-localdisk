@@ -14,7 +14,7 @@ const upload = (req, res) => {
 		fs.renameSync(file.path, fileName);
 		console.log('Upload Success', file.name);
 		let updateAt = moment().format('YYYY-MM-DD HH:mm:SS');
-		fs.appendFile('./log.log', `success: ${fileName} updateAt:${updateAt}\n`, err => {
+		fs.appendFile('./log.log', `upload success: ${fileName} updateAt:${updateAt}\n`, err => {
 			if (err) {
 				fs.appendFile('./log.log', `Error file: ${file.path}\nMessage: ${err} updateAt:${updateAt}\n`);
 				console.error(err);
@@ -28,6 +28,7 @@ const upload = (req, res) => {
 			res.render(err);
 			return;
 		}
+		res.locals.red = '9527';
 		res.redirect(req.practicalDir.replace('./static/', ''));
 	});
 };
