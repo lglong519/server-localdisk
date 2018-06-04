@@ -29,8 +29,8 @@
 					</div>
 			</div>
 		</form>
-		<% if (crumbs.length>1){%>
-			<div class="crumbs border-bottom">
+		<div class="crumbs border-bottom">
+			<% if (crumbs.length>1){%>
 				<a class="directory" href="<%=crumbs[crumbs.length-2][1]%>">
 					<span>上一级</span>
 				</a>
@@ -48,8 +48,10 @@
 						</span>
 					<%}%>
 				<%}%>
-			</div>
-		<%}%>
+			<%}else{%>
+				<span>全部文件</span>
+			<%}%>
+		</div>
 		<ol class='files'>
 			<%for(var i=0,b=0;i<list.length;i++){%>
 					<li class="border-bottom">
@@ -58,15 +60,18 @@
 							<span><%=b%></span>
 						</div>
 						<div>
-							<% if (/(jpg|gif|png|jpeg|ico)$/i.test(list[i][0])) { %>
-								<img class="img-small" src="<%=url+list[i][0]%>" />
-							<% } %>
-								<% if (list[i][1]=='_self') { %>
-									<img class="img-small" src="/folder.svg" />
+							<% if (list[i][1]=='_self') { %>
+								<img class="img-small" src="/folder.svg" />
+							<% }else{ %>
+								<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i][0])) { %>
+									<img class="img-small" src="<%=url+list[i][0]%>" />
+								<% }else{ %>
+									<img class="img-small" src="/file.png" />
 								<% } %>
-								<a href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
-									<%=list[i][0]%>
-								</a>
+							<% } %>
+							<a href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
+								<%=list[i][0]%>
+							</a>
 						</div>
 						<div class="size">
 							<span><%=list[i][2]%></span>

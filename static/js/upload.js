@@ -33,6 +33,7 @@ confirm.onclick = function () {
 	disable(this);
 	if (upload.files.length) {
 		upform.submit();
+		// disable(upload, reset);
 	}
 };
 

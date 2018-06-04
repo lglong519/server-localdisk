@@ -4,6 +4,7 @@ const routes = {
 	api: requireDir('./api')
 };
 const expr = expr => {
+	expr.use(Middlewares.redirect);
 	expr.use(Middlewares.initUrl);
 	expr.get('/*', routes.api.index);
 	/* 图片上传 */

@@ -121,6 +121,7 @@
 	.files {
 	   list-style: none;
 	   padding-left: 0;
+	   margin-top: 0;
 	}
 
 	.files a {
@@ -155,7 +156,7 @@
 	.img-small {
 	   height: 30px;
 	   vertical-align: middle;
-	   margin: 0 5px
+	   margin: 0 5px 0 0;
 	}
 
 	.empty {
@@ -174,7 +175,8 @@
 	.disabled,
 	.disabled:hover {
 	   background-color: #D9D9D9;
-	   color: #fff;
+		color: #fff;
+		border-color: #fff;
 	}
 
 	.border-top {

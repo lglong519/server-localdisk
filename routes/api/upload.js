@@ -1,6 +1,8 @@
 const fs = require('fs');
 const formidable = require('formidable');
 const moment = require('moment');
+const info = require('../../common/info');
+const _ = require('lodash');
 
 const upload = (req, res) => {
 	let form = new formidable.IncomingForm(); // 创建上传表单
@@ -12,23 +14,20 @@ const upload = (req, res) => {
 	form.on('file', (filed, file) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));
 		fs.renameSync(file.path, fileName);
-		console.log('Upload Success', file.name);
+		info('Uploaded', fileName);
 		let updateAt = moment().format('YYYY-MM-DD HH:mm:SS');
-		fs.appendFile('./log.log', `upload success: ${fileName} updateAt:${updateAt}\n`, err => {
+		fs.appendFile('./.log', `upload success: ${fileName} updateAt:${updateAt}\n`, err => {
 			if (err) {
-				fs.appendFile('./log.log', `Error file: ${file.path}\nMessage: ${err} updateAt:${updateAt}\n`);
-				console.error(err);
+				fs.appendFile('./.log', `Error file: ${file.path}\nMessage: ${err} updateAt:${updateAt}\n`);
+				info(err);
 			}
 		});
 	});
 	// 所有操作完成，代理 node
 	form.parse(req, (err, fields, file) => {
 		if (err) {
-			res.locals.error = err;
-			res.render(err);
-			return;
+			info(String(err));
 		}
-		res.locals.red = '9527';
 		res.redirect(req.practicalDir.replace('./static/', ''));
 	});
 };
