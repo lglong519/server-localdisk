@@ -23,7 +23,7 @@
 							<span>选择文件</span>
 						</div>
 						<div>
-							<input type="submit" value="开始上传" class="upload-btn disabled" id='confirm'>
+							<input type="submit" value="上传" class="upload-btn disabled" id='confirm'>
 							<input type="reset" value="重置" class="upload-btn reset disabled" id='reset'>
 						</div>
 					</div>
@@ -54,27 +54,23 @@
 		</div>
 		<ol class='files'>
 			<%for(var i=0,b=0;i<list.length;i++){%>
-					<li class="border-bottom">
+					<li class="flex-row align-center border-bottom">
 						<% b=i<9?'0'+(i+1):i+1 %>
-						<div class="rank">
-							<span><%=b%></span>
-						</div>
-						<div>
+						<span class="mr-2"><%=b%></span>
+						<div class="flex flex-row align-center">
 							<% if (list[i][1]=='_self') { %>
 								<img class="img-small" src="/folder.svg" />
 							<% }else{ %>
 								<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i][0])) { %>
 									<img class="img-small" src="<%=url+list[i][0]%>" />
 								<% }else{ %>
-									<img class="img-small" src="/file.png" />
+									<img class="img-small" src="/file-b.svg" />
 								<% } %>
 							<% } %>
-							<a href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
+							<a class="flex" href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
 								<%=list[i][0]%>
 							</a>
-						</div>
-						<div class="size">
-							<span><%=list[i][2]%></span>
+							<span class="size"><%=list[i][2]%></span>
 						</div>
 					</li>
 				<%}%>

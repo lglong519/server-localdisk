@@ -9,6 +9,7 @@
 
 	.comtainer {
 	   max-width: 768px;
+	   min-width: 320px;
 	   margin: 0 auto;
 	   background-color: #fff;
 	   padding: 15px;
@@ -97,8 +98,9 @@
 	   position: static;
 	}
 
+	/* 上传 */
 	.upload-btn {
-	   width: 100px;
+		padding:0 20px;
 	   height: 35px;
 	   line-height: 35px;
 	   background-color: #fff;
@@ -118,6 +120,7 @@
 	   background-color: #3075dc;
 	}
 
+	/* li */
 	.files {
 	   list-style: none;
 	   padding-left: 0;
@@ -128,14 +131,12 @@
 	   display: inline-block;
 	   text-decoration: none;
 	   color: #4C9541;
-	   height: 30px;
-	   line-height: 30px;
 	   word-break: break-all;
 	}
 
 	.files li {
 	   position: relative;
-	   padding: 5px 0 5px 35px;
+	   padding: 5px 0 5px 0;
 	}
 
 	.rank {
@@ -210,12 +211,10 @@
 	}
 
 	.size {
-	   z-index: 10;
-	   position: absolute;
-	   right: 0;
-	   top: 0;
-	   display: table;
-	   padding: 0 10px 0 5px;
-	   height: 40px;
+	   padding: 0 0 0 5px;
 	   background-color: #fff;
+	}
+
+	.mr-2{
+		margin-right: .5em;
 	}
