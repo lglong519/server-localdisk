@@ -12,7 +12,8 @@
 	   min-width: 320px;
 	   margin: 0 auto;
 	   background-color: #fff;
-	   padding: 15px;
+		padding: 15px;
+		box-sizing: border-box;
 	}
 
 	/*flex  */
@@ -65,9 +66,9 @@
 	   overflow: hidden;
 	   position: relative;
 	   display: block;
-	   height: 35px;
-	   line-height: 35px;
-	   margin: 5px 0 5px;
+	   height: 32px;
+	   line-height: 32px;
+	   margin: 8px 0 8px;
 	   padding: 0 10px;
 	   border: 1px solid #38f;
 	   text-align: center;
@@ -124,7 +125,7 @@
 	.files {
 	   list-style: none;
 	   padding-left: 0;
-	   margin-top: 0;
+		margin-top: 0;
 	}
 
 	.files a {
@@ -136,7 +137,10 @@
 
 	.files li {
 	   position: relative;
-	   padding: 5px 0 5px 0;
+	}
+
+	li>div {
+	   padding: 7px 0;
 	}
 
 	.rank {
@@ -181,15 +185,15 @@
 	}
 
 	.border-top {
-	   border-top: 1px solid #e0e0e0;
+	   border-top: 1px solid #E9ECF0;
 	}
 
 	.border-bottom {
-	   border-bottom: 1px solid #e0e0e0;
+	   border-bottom: 1px solid #E9ECF0;
 	}
 
 	.border {
-	   border: 1px solid #e0e0e0;
+	   border: 1px solid #E9ECF0;
 	}
 
 	.directory {
@@ -217,4 +221,30 @@
 
 	.mr-2{
 		margin-right: .5em;
+	}
+
+	.ml-1{
+		margin-left: .25em;
+	}
+
+	.stripe,.stripe .size{
+		background-color: #EDF6FF;
+	}
+	.files li:hover,.files li:hover .size {
+	   background-color: #FBF7FF;
+	}
+	.c-p{
+		color: #B575F5;
+	}
+	.c-b{
+		color: #5A9FE6;
+	}
+	.c-c{
+		color: #81A600;
+	}
+	.c-y{
+		color: #FFEBD5;
+	}
+	.c-r{
+		color: #FC3C63;
 	}

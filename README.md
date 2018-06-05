@@ -1,5 +1,5 @@
 # localdisk
 	express+ejs+...
 ### preview
-![Index](preview/S80603-185314.jpg)
-![subroute](preview/S80603-190904.jpg)
+![Index](preview/001.jpg)
+![subroute](preview/002.jpg)

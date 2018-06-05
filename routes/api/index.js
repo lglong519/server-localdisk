@@ -46,6 +46,7 @@ const index = (req, res) => {
 				baseUrl += `/${item}`
 			]);
 		});
+		outputFiles.sort((a, b) => a[0] > b[0]);
 		outputFiles.sort((a, b) => a[1] > b[1]);
 		outputFiles.reverse();
 		res.render('upload', { list: outputFiles, url: req.practicalDir.replace('./static', ''), crumbs });

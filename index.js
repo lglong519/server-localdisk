@@ -4,6 +4,7 @@ const express = require('express');
 const expr = express();
 const fs = require('fs');
 const info = require('./common/info');
+const log = require('./common/log');
 const nconf = require('nconf');
 const host = require('./common/getHost');
 nconf.env().file('.config');
@@ -34,4 +35,6 @@ require('./routes')(expr);
 // 3.监听端口
 expr.listen(nconf.get('PORT'));
 
-info(`Start listenning: ${URL} ,uploadDir:`, UPLOAD_DIR);
+let message = `Server listenning: ${URL} ,uploadDir:${UPLOAD_DIR}`;
+info(message);
+log(message);

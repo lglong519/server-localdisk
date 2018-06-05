@@ -14,13 +14,13 @@
 		<form action="/upload" id="upform" onsubmit="return checkVal()" method="post" enctype="multipart/form-data">
 			<!--注意此处的name和后端files的属性对应-->
 			<div class="flex-column align-stretch btngroup border-bottom">
-					<div class="border-bottom waiting">
-						待传文件：<span id='fileName'>无</span>
+					<div class="border-bottom waiting c-c">
+						待传文件：<span id='fileName' class="c-r">无</span>
 					</div>
 					<div class="flex-row align-center justify-between flex">
 						<div class="upload">
 							<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
-							<span>选择文件</span>
+							<span class="c-y">选择文件</span>
 						</div>
 						<div>
 							<input type="submit" value="上传" class="upload-btn disabled" id='confirm'>
@@ -52,11 +52,12 @@
 				<span>全部文件</span>
 			<%}%>
 		</div>
-		<ol class='files'>
+		<ol class='files border-bottom'>
 			<%for(var i=0,b=0;i<list.length;i++){%>
-					<li class="flex-row align-center border-bottom">
+					<% stripe=i%2==0?'stripe c-p':'c-b'%>
+					<li class="flex-row align-center <%=stripe%>">
 						<% b=i<9?'0'+(i+1):i+1 %>
-						<span class="mr-2"><%=b%></span>
+						<span class="mr-2 ml-1"><%=b%></span>
 						<div class="flex flex-row align-center">
 							<% if (list[i][1]=='_self') { %>
 								<img class="img-small" src="/folder.svg" />
@@ -70,7 +71,7 @@
 							<a class="flex" href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
 								<%=list[i][0]%>
 							</a>
-							<span class="size"><%=list[i][2]%></span>
+							<span class="size mr-2"><%=list[i][2]%></span>
 						</div>
 					</li>
 				<%}%>

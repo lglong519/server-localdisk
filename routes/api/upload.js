@@ -1,8 +1,9 @@
 const fs = require('fs');
 const formidable = require('formidable');
-const moment = require('moment');
 const info = require('../../common/info');
-const _ = require('lodash');
+const log = require('../../common/log');
+
+/* eslint no-unused-vars:1 */
 
 const upload = (req, res) => {
 	let form = new formidable.IncomingForm(); // 创建上传表单
@@ -15,13 +16,7 @@ const upload = (req, res) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));
 		fs.renameSync(file.path, fileName);
 		info('Uploaded', fileName);
-		let updateAt = moment().format('YYYY-MM-DD HH:mm:SS');
-		fs.appendFile('./.log', `upload success: ${fileName} updateAt:${updateAt}\n`, err => {
-			if (err) {
-				fs.appendFile('./.log', `Error file: ${file.path}\nMessage: ${err} updateAt:${updateAt}\n`);
-				info(err);
-			}
-		});
+		log(`upload success: ${fileName}`);
 	});
 	// 所有操作完成，代理 node
 	form.parse(req, (err, fields, file) => {

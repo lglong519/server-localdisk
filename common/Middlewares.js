@@ -3,7 +3,7 @@ const info = require('./info');
 
 const redirect = (req, res, next) => {
 	info(req.method, decodeURI(req.url));
-	if (/^\/(index|gallery)\/?$/.test(req.url)) {
+	if (req.method == 'GET' && (/^\/(index|gallery|upload)\/?$/).test(req.url)) {
 		return res.redirect('/');
 	}
 	next();
