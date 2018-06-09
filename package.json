@@ -1,13 +1,13 @@
 {
-  "name": "share-files",
-  "version": "2.0.2",
-  "description": "",
-  "main": "dev.js",
+  "name": "server-localdisk",
+  "version": "2.0.3",
+  "description": "server-localdisk",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "supervisor index"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["localdisk"],
+  "author": "lglong519",
   "license": "ISC",
   "dependencies": {
     "ejs": "^2.5.7",
