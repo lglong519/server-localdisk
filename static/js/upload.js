@@ -86,7 +86,7 @@ newFolder.onclick = function () {
 	}
 };
 newFile.onclick = function () {
-	let content = prompt('文件名') || '';
+	let content = prompt('写入的内容') || '';
 	content = content.replace(/\s*/g, '');
 	if (content) {
 		request({
@@ -103,7 +103,7 @@ newFile.onclick = function () {
 					toast.style.display = 'block';
 					setTimeout(() => {
 						toast.className += ' show';
-					}, 10);
+					}, 100);
 					setTimeout(() => {
 						location.reload();
 					}, 1200);

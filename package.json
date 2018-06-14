@@ -1,6 +1,6 @@
 {
   "name": "server-localdisk",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {

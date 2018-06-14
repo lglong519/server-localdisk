@@ -1,3 +1,10 @@
 let interfaces = require('os').networkInterfaces();
-let keys = Object.keys(interfaces);
-module.exports = interfaces[keys[keys.length - 1]][0].address;
+let values = Object.values(interfaces);
+for (let k of values) {
+	for (let i of k) {
+		if (!i.address.replace(/[.\d]*/g, '') && i.mac.replace(/[:\d]*/g, '')) {
+			module.exports = i.address;
+			break;
+		}
+	}
+}
