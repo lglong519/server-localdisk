@@ -50,6 +50,10 @@
 	   align-self: flex-start;
 	}
 
+	.self-end {
+	   align-self: flex-end;
+	}
+
 	.self-base {
 	   align-self: baseline
 	}
@@ -111,6 +115,20 @@
 	   font-weight: 500;
 	   box-sizing: border-box;
 	}
+
+	.create-btn{
+		padding:0 8px;
+		margin-left: 5px;
+	   height: 30px;
+	   line-height: 30px;
+	   background-color: #fff;
+	   color: #ff6700;
+	   border:none;
+	   font-size: 12px;
+		box-sizing: border-box;
+		cursor: pointer;
+		box-shadow: 0 0 3px #e0e0e0;
+	}	
 
 	.upload-btn:hover {
 	   background-color: #317ef3;
@@ -247,4 +265,25 @@
 	}
 	.c-r{
 		color: #FC3C63;
+	}
+	.toast{
+		display: none;
+		position: fixed;
+		top: 100px;
+		left: 50%;
+		margin-left:-10px; 
+		width: 30px;
+		height: 20px;
+		line-height: 20px;
+		border-radius: 10px;
+		background: rgba(2, 1, 16, 0.5);
+		color: #fff;
+		text-align: center;
+		transition: width .8s , height .8s;
+	}
+	.show{
+		width: 120px;
+		height: 80px;
+		line-height: 80px;
+		margin-left:-60px; 
 	}

@@ -3,6 +3,10 @@ let reset = document.getElementById('reset');
 let fileName = document.getElementById('fileName');
 let confirm = document.getElementById('confirm');
 let upform = document.getElementById('upform');
+let newFolder = document.getElementById('newFolder');
+let newFile = document.getElementById('newFile');
+let { value: requestUrl } = document.getElementById('requestUrl');
+let toast = document.getElementById('toast');
 
 window.onload = function () {
 	upload.value = null;
@@ -50,4 +54,63 @@ function enable (...rest) {
 	});
 
 }
-// form onsubmit 前检查上传的数据
+
+// request
+newFolder.onclick = function () {
+	let folderName = prompt('文件夹名称') || '';
+	folderName = folderName.replace(/\s*/g, '');
+	if (folderName) {
+		request({
+			type: 'post',
+			url: `${requestUrl}/file/new-folder`,
+			async: true,
+			cache: false,
+			data: {
+				folderName
+			},
+			dataType: 'json',
+			success (res) {
+				if (res.status === 'ok') {
+					toast.style.display = 'block';
+					setTimeout(() => {
+						toast.className += ' show';
+					}, 10);
+					setTimeout(() => {
+						location.reload();
+					}, 1200);
+				} else {
+					console.error(res);
+				}
+			},
+		});
+	}
+};
+newFile.onclick = function () {
+	let content = prompt('文件名') || '';
+	content = content.replace(/\s*/g, '');
+	if (content) {
+		request({
+			type: 'post',
+			url: `${requestUrl}/file/new-file`,
+			async: true,
+			cache: false,
+			data: {
+				content
+			},
+			dataType: 'json',
+			success (res) {
+				if (res.status === 'ok') {
+					toast.style.display = 'block';
+					setTimeout(() => {
+						toast.className += ' show';
+					}, 10);
+					setTimeout(() => {
+						location.reload();
+					}, 1200);
+				} else {
+					console.error(res);
+				}
+			},
+		});
+	}
+};

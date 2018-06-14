@@ -25,9 +25,20 @@ const initUrl = (req, res, next) => {
 			suffix = referer.replace(/([^g]*)?gallery\//, '');
 		}
 	}
+	// **Untitled Folder/
 	req.practicalDir = decodeURI(`${dir + suffix}`);
 	next();
 };
 
+function initCors (req, res, next) {
+	res.header('Access-Control-Allow-Origin', this.locals.requestUrl);
+	res.header('Access-Control-Allow-Origin', `http://localhost:${this.locals.requestUrl.split(':').pop()}`);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Credentials', 'true');
+	next();
+}
+
 module.exports.redirect = redirect;
 module.exports.initUrl = initUrl;
+module.exports.initCors = initCors;

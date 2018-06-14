@@ -27,6 +27,10 @@
 							<input type="reset" value="重置" class="upload-btn reset disabled" id='reset'>
 						</div>
 					</div>
+					<div class="self-end">
+						<input type="button" value="新建文件夹" class="create-btn" id='newFolder'>
+						<input type="button" value="新建文件" class="create-btn reset" id='newFile'>
+					</div>
 			</div>
 		</form>
 		<div class="crumbs border-bottom">
@@ -80,6 +84,9 @@
 			<h1 class="empty">Empty</h1>
 		<% } %>
 	</div>
+	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
+	<div class="toast" id='toast'>创建成功</div>
+	<script src="/js/request.js"></script>
 	<script src="/js/upload.js"></script>
 </body>
 

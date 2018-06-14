@@ -7,7 +7,12 @@ const info = require('./common/info');
 const log = require('./common/log');
 const nconf = require('nconf');
 const host = require('./common/getHost');
+const bodyParser = require('body-parser');
+
 nconf.env().file('.config');
+
+expr.use(bodyParser.json());
+expr.use(bodyParser.urlencoded({ extended: true }));
 
 let UPLOAD_DIR = nconf.get('UPLOAD_DIR');
 // 判断默认的共享目录是否存在
@@ -29,6 +34,7 @@ expr.set('view engine', 'ejs');
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();
 expr.use('', express.static(staticDir));
+expr.locals.requestUrl = URL.slice(0, -1);
 
 require('./routes')(expr);
 
