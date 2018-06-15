@@ -63,19 +63,20 @@
 						<% b=i<9?'0'+(i+1):i+1 %>
 						<span class="mr-2 ml-1"><%=b%></span>
 						<div class="flex flex-row align-center">
-							<% if (list[i][1]=='_self') { %>
+							<% if (list[i].target=='_self') { %>
 								<img class="img-small" src="/folder.svg" />
 							<% }else{ %>
-								<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i][0])) { %>
-									<img class="img-small" src="<%=url+list[i][0]%>" />
+								<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i].name)) { %>
+									<img class="img-small" src="<%=url+list[i].name%>" />
 								<% }else{ %>
 									<img class="img-small" src="/file-b.svg" />
 								<% } %>
 							<% } %>
-							<a class="flex" href="<%=url+list[i][0]%>" target="<%=list[i][1]%>">
-								<%=list[i][0]%>
+							<a class="flex" href="<%=url+list[i].name%>" target="<%=list[i][1]%>">
+								<%=list[i].name%>
 							</a>
-							<span class="size mr-2"><%=list[i][2]%></span>
+							<span class="size mr-2 text-right"><%=list[i].size%><br>
+							<%=list[i].mtime%></span>
 						</div>
 					</li>
 				<%}%>

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const filesize = require('filesize');
+const moment = require('moment');
 
 /**
  * @description 负责页面内容的准备：显示的文件列表，文件地址，文件是否在当前页面打开
@@ -29,11 +30,12 @@ const index = (req, res) => {
 				if (stats.isFile()) {
 					size = filesize(stats.size);
 				}
-				outputFiles.push([
-					item,
+				outputFiles.push({
+					name: item,
 					target,
-					size
-				]);
+					size,
+					mtime: moment(stats.mtime).format('YYYY-MM-DD HH:mm:SS')
+				});
 			});
 		}
 		let links = req.practicalDir.match(/[^/]+/g);

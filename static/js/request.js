@@ -38,7 +38,7 @@ function request (config) {
 function jsonToStr (data) {
 	let str = '';
 	for (let i in data) {
-		str += `${i}=${data[i]}&`;
+		str += `${i}=${encodeURIComponent(data[i])}&`;
 	}
 	return str.replace(/&+$/, '');
 }
