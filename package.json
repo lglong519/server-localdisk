@@ -1,12 +1,14 @@
 {
   "name": "server-localdisk",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
     "dev": "supervisor index"
   },
-  "keywords": ["localdisk"],
+  "keywords": [
+    "localdisk"
+  ],
   "author": "lglong519",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +21,7 @@
     "require-dir": "^1.0.0"
   },
   "devDependencies": {
-    "eslint-config-lglong519": "github:lglong519/eslint-config"
+    "eslint-config-lglong519": "github:lglong519/eslint-config",
+    "socket.io": "^2.1.1"
   }
 }

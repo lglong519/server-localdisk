@@ -7,6 +7,7 @@ let newFolder = document.getElementById('newFolder');
 let newFile = document.getElementById('newFile');
 let { value: requestUrl } = document.getElementById('requestUrl');
 let toast = document.getElementById('toast');
+let processing = document.getElementById('processing');
 
 window.onload = function () {
 	upload.value = null;
@@ -114,3 +115,8 @@ newFile.onclick = function () {
 		});
 	}
 };
+
+window.socket.on('processing', data => {
+	processing.className = 'display';
+	processing.innerHTML = data.percentage;
+});

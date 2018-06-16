@@ -6,6 +6,8 @@ const moment = require('moment');
  * @description 负责页面内容的准备：显示的文件列表，文件地址，文件是否在当前页面打开
  */
 const index = (req, res) => {
+	console.log();
+
 	if (!fs.existsSync(req.practicalDir)) {
 		res.render('404');
 		return;
@@ -48,10 +50,11 @@ const index = (req, res) => {
 				baseUrl += `/${item}`
 			]);
 		});
+		let ioUrl = req.io.ioUrl;
 		outputFiles.sort((a, b) => a[0] > b[0]);
 		outputFiles.sort((a, b) => a[1] > b[1]);
 		outputFiles.reverse();
-		res.render('upload', { list: outputFiles, url: req.practicalDir.replace('./static', ''), crumbs });
+		res.render('upload', { list: outputFiles, url: req.practicalDir.replace('./static', ''), crumbs, ioUrl });
 	});
 };
 module.exports = index;

@@ -1,11 +1,14 @@
+const fs = require('fs');
+const nconf = require('nconf');
+const bodyParser = require('body-parser');
+const info = require('./common/info');
+const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 
 // 引入expr模块
 const express = require('express');
 const expr = express();
-const fs = require('fs');
-const info = require('./common/info');
-const nconf = require('nconf');
-const bodyParser = require('body-parser');
+let server = require('http').Server(expr);
+let io = require('socket.io')(server);
 
 nconf.env().file('.config');
 
@@ -31,7 +34,14 @@ expr.set('view engine', 'ejs');
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();
 expr.use('', express.static(staticDir));
 
+// bind io to express
+expr.use((req, res, next) => {
+	req.io = io;
+	next();
+});
+
 require('./routes')(expr);
 
 // 监听端口
-require('./common/listenWithoutOccupied')(expr, nconf.get('PORT'));
+listenWithoutOccupied(expr, nconf.get('PORT'), 'Server');
+listenWithoutOccupied(io, nconf.get('PORT'), 'io');

@@ -76,7 +76,8 @@
 								<%=list[i].name%>
 							</a>
 							<span class="size mr-2 text-right"><%=list[i].size%><br>
-							<%=list[i].mtime%></span>
+							<!-- <%=list[i].mtime%> -->
+						</span>
 						</div>
 					</li>
 				<%}%>
@@ -84,10 +85,15 @@
 		<% if (list.length==0) { %>
 			<h1 class="empty">Empty</h1>
 		<% } %>
+		<div id="processing">0%</div>
 	</div>
 	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
 	<div class="toast" id='toast'>创建成功</div>
+	<script src="/js/socket.io.js"></script>
 	<script src="/js/request.js"></script>
+	<script>
+		window.socket = io.connect('<%=ioUrl%>');
+</script>
 	<script src="/js/upload.js"></script>
 </body>
 

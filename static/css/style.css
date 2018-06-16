@@ -8,6 +8,7 @@
 	}
 
 	.comtainer {
+		position: relative;
 	   max-width: 768px;
 	   min-width: 320px;
 	   margin: 0 auto;
@@ -287,4 +288,23 @@
 	}
 	.show{
 		top: 100px;
+	}
+
+	#processing{
+		display: none;
+		z-index: 10;
+		position: absolute;
+		right: 10px;
+		top: 5px;
+		width: 35px;
+		height: 35px;
+		line-height: 35px;
+		border-radius: 50%;
+		background: rgba(2, 1, 16, 0.3);
+		text-align: center;
+		color:rgb(198, 241, 198);
+		font-size: 12px;
+	}
+	#processing.display {
+		display: block;
 	}

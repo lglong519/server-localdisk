@@ -18,6 +18,17 @@ const upload = (req, res) => {
 		info('Uploaded', fileName);
 		log(`upload success: ${fileName}`);
 	});
+	let per;
+	form.on('progress', (bytesReceived, bytesExpected) => {
+		let percentage = `${parseInt(bytesReceived / bytesExpected * 100)}%`;
+		if (per != percentage) {
+			per = percentage;
+			req.io.emit('processing', {
+				percentage
+			});
+		}
+	});
+
 	// 所有操作完成，代理 node
 	form.parse(req, (err, fields, file) => {
 		if (err) {
