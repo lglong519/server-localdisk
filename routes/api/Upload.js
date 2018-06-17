@@ -2,13 +2,14 @@ const fs = require('fs');
 const formidable = require('formidable');
 const info = require('../../common/info');
 const log = require('../../common/log');
+const nconf = require('nconf');
 
 /* eslint no-unused-vars:1 */
 
 const upload = (req, res) => {
 	let form = new formidable.IncomingForm(); // 创建上传表单
 	form.encoding = 'utf-8'; // 设置编辑
-	form.uploadDir = req.practicalDir; // 设置上传目录
+	form.uploadDir = `${req.practicalDir}/`; // 设置上传目录
 	form.keepExtensions = true; // 保留后缀
 	form.maxFileSize = 2 * 1024 * 1024 * 1024; // 文件大小
 	// 文件接收完成
@@ -23,7 +24,7 @@ const upload = (req, res) => {
 		let percentage = `${parseInt(bytesReceived / bytesExpected * 100)}%`;
 		if (per != percentage) {
 			per = percentage;
-			req.io.emit('processing', {
+			req.app.get('io').emit('processing', {
 				percentage
 			});
 		}
@@ -35,7 +36,7 @@ const upload = (req, res) => {
 			info(String(err));
 			log(String(err));
 		}
-		res.redirect(req.practicalDir.replace('./static/', ''));
+		res.redirect(req.practicalDir.replace(nconf.get('UPLOAD_DIR'), ''));
 	});
 };
 module.exports = upload;

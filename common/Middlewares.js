@@ -3,8 +3,8 @@ const info = require('./info');
 
 const redirect = (req, res, next) => {
 	info(req.method, decodeURI(req.url));
-	if (req.method == 'GET' && (/^\/(index|gallery|upload)\/?$/).test(req.url)) {
-		return res.redirect('/');
+	if (req.url.endsWith('/') && req.url.length != 1) {
+		return res.redirect(req.url.slice(0, -1));
 	}
 	next();
 };
@@ -13,17 +13,14 @@ const initUrl = (req, res, next) => {
 	let { url } = req;
 	let suffix = '';
 	if (req.method == 'GET') {
-		if ((/\/gallery\/\w+/).test(url)) {
-			suffix = url.replace('/gallery/', '');
-		} else {
-			suffix = req.url.replace('/', '');
+		if (url.includes('?')) {
+			url = url.split('?').shift();
 		}
+		suffix = url.replace('/', '');
 	}
 	if (req.method == 'POST') {
 		let { referer = '' } = req.headers;
-		if ((/gallery/).test(referer)) {
-			suffix = referer.replace(/([^g]*)?gallery\//, '');
-		}
+		suffix = referer.replace(req.app.get('requestUrl'), '');
 	}
 	// **Untitled Folder/
 	req.practicalDir = decodeURI(`${dir + suffix}`);
@@ -31,8 +28,8 @@ const initUrl = (req, res, next) => {
 };
 
 function initCors (req, res, next) {
-	res.header('Access-Control-Allow-Origin', this.locals.requestUrl);
-	res.header('Access-Control-Allow-Origin', `http://localhost:${this.locals.requestUrl.split(':').pop()}`);
+	res.header('Access-Control-Allow-Origin', req.app.get('requestUrl'));
+	res.header('Access-Control-Allow-Origin', `http://localhost:${req.app.get('requestUrl').split(':').pop()}`);
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	res.header('Access-Control-Allow-Credentials', 'true');

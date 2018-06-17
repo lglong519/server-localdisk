@@ -1,6 +1,6 @@
 {
   "name": "server-localdisk",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "eslint-config-lglong519": "github:lglong519/eslint-config",
+    "joi": "^13.4.0",
     "socket.io": "^2.1.1"
   }
 }

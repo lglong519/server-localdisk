@@ -29,19 +29,15 @@ fs.exists(UPLOAD_DIR, result => {
 
 // 配置ejs模板引擎
 expr.set('view engine', 'ejs');
+// bind io to express
+expr.set('io', io);
 
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();
 expr.use('', express.static(staticDir));
 
-// bind io to express
-expr.use((req, res, next) => {
-	req.io = io;
-	next();
-});
-
 require('./routes')(expr);
 
 // 监听端口
 listenWithoutOccupied(expr, nconf.get('PORT'), 'Server');
-listenWithoutOccupied(io, nconf.get('PORT'), 'io');
+listenWithoutOccupied(io, nconf.get('PORT'), 'Socket');

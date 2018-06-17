@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const newFolder = (req, res) => {
 	let { folderName } = req.body;
-	fs.mkdir(`${req.practicalDir}${folderName}`, err => {
+	fs.mkdir(`${req.practicalDir}/${folderName}`, err => {
 		if (err) {
 			return res.status(500).send(err);
 		}
@@ -13,7 +13,7 @@ const newFolder = (req, res) => {
 };
 const newFile = (req, res) => {
 	let { content } = req.body;
-	fs.appendFile(`${req.practicalDir}temp-${Date.now()}.txt`, content, err => {
+	fs.appendFile(`${req.practicalDir}/temp-${Date.now()}.txt`, content, err => {
 		if (err) {
 			return res.status(500).send(err);
 		}
@@ -23,5 +23,9 @@ const newFile = (req, res) => {
 	});
 };
 
+const remove = (req, res) => {
+};
+
 exports.newFolder = newFolder;
 exports.newFile = newFile;
+exports.remove = remove;

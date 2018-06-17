@@ -8,13 +8,14 @@ const listenWithoutOccupied = (app, port, type) => {
 	let server = net.createServer().listen(port);
 	server.on('listening', () => {
 		server.close();
-		const URL = `http://${host}:${port}/`;
+		const URL = `http://${host}:${port}`;
 		let message;
 		if (type === 'Server') {
-			app.locals.requestUrl = URL.slice(0, -1);
+			app.locals.requestUrl = URL;
+			app.set('requestUrl', app.locals.requestUrl);
 			message = `${type} listenning on: ${URL} , uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
 		} else {
-			app.ioUrl = URL.slice(0, -1);
+			app.ioUrl = URL;
 			message = `${type} listenning on: ${URL}`;
 		}
 		let noLog = true;
