@@ -30,7 +30,9 @@
 					<div class="self-end">
 						<input type="button" value="+文件夹" class="create-btn" id='newFolder'>
 						<input type="button" value="+写入" class="create-btn reset" id='newFile'>
-						<input type="button" value="-删除" class="create-btn reset" id='newFile'>
+						<input type="button" value="重命名" class="create-btn rename" id='renameFile'>
+						<input type="button" value="删除" class="create-btn delete" id='deleteFile'>
+						<input type="button" value="取消" class="create-btn cancel" id='cancel'>
 					</div>
 			</div>
 		</form>
@@ -60,26 +62,36 @@
 		<ol class='files border-bottom'>
 			<%for(var i=0,b=0;i<list.length;i++){%>
 					<% stripe=i%2==0?'stripe c-p':'c-b'%>
-					<li class="flex-row align-center <%=stripe%>">
+					<li>
 						<% b=i<9?'0'+(i+1):i+1 %>
-						<span class="mr-2 ml-1"><%=b%></span>
-						<div class="flex flex-row align-center">
-							<% if (list[i].target=='_self') { %>
-								<img class="img-small" src="/folder.svg" />
-							<% }else{ %>
-								<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i].name)) { %>
-									<img class="img-small" src="<%=list[i].link%>" />
-								<% }else{ %>
-									<img class="img-small" src="/file-b.svg" />
-								<% } %>
-							<% } %>
-							<a class="flex" href="<%=list[i].link%>" target="<%=list[i].target%>">
-								<%=list[i].name%>
-							</a>
-							<span class="size mr-2 text-right"><%=list[i].size%><br>
-							<!-- <%=list[i].mtime%> -->
-						</span>
-						</div>
+						<a class="flex-row align-center <%=stripe%>" href="<%=list[i].link%>" target="<%=list[i].target%>">
+							<span class="mx-3"><%=b%></span>
+
+							<div class="img-box">
+									<% if (list[i].target=='_self') { %>
+										<img class="img-small" src="/folder.svg" />
+									<% }else{ %>
+										<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i].name)) { %>
+											<img class="img-small" src="<%=list[i].link%>" />
+										<% }else{ %>
+											<img class="img-small" src="/file-b.svg" />
+										<% } %>
+									<% } %>
+							</div>
+
+							<div class="details flex flex-row align-center">
+								<div class="flex">
+									<div class="file-name"><%=list[i].name%></div>
+									<div class="info">
+										<span class="size"><%=list[i].size%></span>
+										<span class="mtime text-right"><%=list[i].mtime%></span>
+									</div>
+								</div>
+							</div>
+							<div class="check-box ml-1 mr-2">
+								<span class="check-btn"></span>
+							</div>
+						</a>
 					</li>
 				<%}%>
 		</ol>

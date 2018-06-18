@@ -1,19 +1,21 @@
 let upload = document.getElementById('upload');
 let reset = document.getElementById('reset');
 let fileName = document.getElementById('fileName');
-let confirm = document.getElementById('confirm');
+let confirmBtn = document.getElementById('confirm');
 let upform = document.getElementById('upform');
 let newFolder = document.getElementById('newFolder');
 let newFile = document.getElementById('newFile');
 let { value: requestUrl } = document.getElementById('requestUrl');
 let toast = document.getElementById('toast');
 let processing = document.getElementById('processing');
+let cancel = document.getElementById('cancel');
+let deleteFile = document.getElementById('deleteFile');
 
 window.onload = function () {
 	upload.value = null;
 	fileName.innerHTML = '无';
 	if (!upload.files.length) {
-		disable(confirm, reset);
+		disable(confirmBtn, reset);
 	}
 };
 upload.onchange = function () {
@@ -24,17 +26,17 @@ upload.onchange = function () {
 	}
 	fileName.innerHTML = filename;
 	if (this.files.length) {
-		enable(reset, confirm);
+		enable(reset, confirmBtn);
 	} else {
-		disable(confirm, reset);
+		disable(confirmBtn, reset);
 	}
 };
 reset.onclick = function () {
 	upload.value = null;
 	fileName.innerHTML = '无';
-	disable(reset, confirm);
+	disable(reset, confirmBtn);
 };
-confirm.onclick = function () {
+confirmBtn.onclick = function () {
 	disable(this);
 	if (upload.files.length) {
 		upform.submit();
@@ -120,3 +122,66 @@ window.socket.on('processing', data => {
 	processing.className = 'display';
 	processing.innerHTML = data.percentage;
 });
+
+document.querySelector('.files').onclick = function () {
+	let src = event.target || event.srcElement;
+	if (src.className.includes('check-box')) {
+		src = src.children[0];
+	}
+	if (src.className.includes('check-btn')) {
+		event.stopPropagation();
+		if (src.className.includes('checked')) {
+			src.className = 'check-btn';
+			return false;
+		}
+		checkNone();
+		src.className += ' checked';
+		return false;
+	}
+
+};
+
+cancel.onclick = checkNone;
+
+function checkNone () {
+	let ckecked = document.querySelectorAll('.checked');
+	for (let i of ckecked) {
+		i.className = i.className.replace('checked', '');
+	}
+}
+
+deleteFile.onclick = function () {
+	let checked = document.querySelector('.checked');
+	if (!checked) {
+		return;
+	}
+	let file = checked.parentNode.parentNode.querySelector('.file-name').innerHTML;
+
+	let cf = confirm(`Delete file:${file}?`);
+	if (cf) {
+		request({
+			type: 'delete',
+			url: `${requestUrl}/file/delete`,
+			async: true,
+			cache: false,
+			data: {
+				fileName: file
+			},
+			dataType: 'json',
+			success (res) {
+				if (res.status === 'ok') {
+					toast.innerHTML = '删除成功';
+					toast.style.display = 'block';
+					setTimeout(() => {
+						toast.className += ' show';
+					}, 10);
+					setTimeout(() => {
+						location.reload();
+					}, 1200);
+				} else {
+					console.error(res);
+				}
+			},
+		});
+	}
+};

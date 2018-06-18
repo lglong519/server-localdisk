@@ -36,7 +36,7 @@ const upload = (req, res) => {
 			info(String(err));
 			log(String(err));
 		}
-		res.redirect(req.practicalDir.replace(nconf.get('UPLOAD_DIR'), ''));
+		res.redirect(req.practicalDir.replace(nconf.get('UPLOAD_DIR').slice(0, -1), '') || '/');
 	});
 };
 module.exports = upload;

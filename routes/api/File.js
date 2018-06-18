@@ -28,6 +28,22 @@ const newFile = (req, res) => {
 };
 
 const remove = (req, res) => {
+	let fileName = decodeURI(req.query.fileName);
+	fs.exists(`${req.practicalDir}/${fileName}`, result => {
+		if (!result) {
+			return res.status(404).send('ResourceNotFoundError');
+		}
+		fs.unlink(`${req.practicalDir}/${fileName}`, err => {
+			if (err) {
+				log(cprint.toRed(err));
+				return res.status(500).send(err);
+			}
+			res.send({
+				status: 'ok'
+			});
+		});
+	});
+
 };
 
 exports.newFolder = newFolder;

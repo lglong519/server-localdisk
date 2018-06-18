@@ -22,7 +22,7 @@ const initUrl = (req, res, next) => {
 		}
 		suffix = url.replace('/', '');
 	}
-	if (req.method == 'POST') {
+	if (/POST|DELETE/i.test(req.method)) {
 		let { referer = '' } = req.headers;
 		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '');
 	}
