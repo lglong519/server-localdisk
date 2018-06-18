@@ -1,9 +1,12 @@
 const fs = require('fs');
+const cprint = require('color-print');
+const log = require('../../common/log');
 
 const newFolder = (req, res) => {
 	let { folderName } = req.body;
 	fs.mkdir(`${req.practicalDir}/${folderName}`, err => {
 		if (err) {
+			log(cprint.toRed(err));
 			return res.status(500).send(err);
 		}
 		res.send({
@@ -15,6 +18,7 @@ const newFile = (req, res) => {
 	let { content } = req.body;
 	fs.appendFile(`${req.practicalDir}/temp-${Date.now()}.txt`, content, err => {
 		if (err) {
+			log(cprint.toRed(err));
 			return res.status(500).send(err);
 		}
 		res.send({

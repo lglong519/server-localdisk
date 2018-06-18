@@ -27,7 +27,7 @@ const index = (req, res) => {
 		let outputFiles = [];
 		let filesArr = [];
 		let foldersArr = [];
-		let relativeDir = req.practicalDir.replace(nconf.get('UPLOAD_DIR'), '');
+		let relativeDir = req.practicalDir.replace(nconf.get('UPLOAD_DIR').slice(0, -1), '').replace('//', '/');
 		if (files) {
 			for (let i = files.length - 1; i >= 0; i--) {
 				if (files[i].indexOf('.gitKeep') > -1) {
@@ -41,7 +41,7 @@ const index = (req, res) => {
 					target: '_blank',
 					size: filesize(stats.size),
 					// 如果是根目录 link=/123,否则 link=/sub/123
-					link: `${relativeDir ? `/${relativeDir}` : ''}/${item}`,
+					link: `${relativeDir}/${item}`,
 					mtime: moment(stats.mtime).format('YYYY-MM-DD HH:mm:SS'),
 					originSize: stats.size
 				};

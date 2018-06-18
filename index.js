@@ -11,6 +11,7 @@ let server = require('http').Server(expr);
 let io = require('socket.io')(server);
 
 nconf.env().file('.config');
+nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT']);
 
 expr.use(bodyParser.json());
 expr.use(bodyParser.urlencoded({ extended: true }));

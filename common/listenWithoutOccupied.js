@@ -2,6 +2,7 @@ let net = require('net');
 const log = require('./log');
 const host = require('./getHost');
 const nconf = require('nconf');
+const cprint = require('color-print');
 
 const listenWithoutOccupied = (app, port, type) => {
 	// 创建服务并监听该端口
@@ -13,17 +14,15 @@ const listenWithoutOccupied = (app, port, type) => {
 		if (type === 'Server') {
 			app.locals.requestUrl = URL;
 			app.set('requestUrl', app.locals.requestUrl);
-			message = `${type} listenning on: ${URL} , uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
+			message = `${type} listenning on: ${cprint.toYellow(URL)},uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
 		} else {
 			app.ioUrl = URL;
-			message = `${type} listenning on: ${URL}`;
+			message = `${type} listenning on: ${cprint.toYellow(URL)}`;
 		}
-		let noLog = true;
 		app.listen(port, () => {
-			noLog = false;
 			log(message);
 		});
-		if (noLog) {
+		if (type !== 'Server') {
 			log(message);
 		}
 	});

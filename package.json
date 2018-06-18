@@ -4,7 +4,8 @@
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
-    "dev": "supervisor index"
+    "test": "supervisor index",
+    "dev": "node index"
   },
   "keywords": [
     "localdisk"
@@ -21,6 +22,7 @@
     "require-dir": "^1.0.0"
   },
   "devDependencies": {
+    "color-print": "^1.0.2",
     "eslint-config-lglong519": "github:lglong519/eslint-config",
     "joi": "^13.4.0",
     "socket.io": "^2.1.1"

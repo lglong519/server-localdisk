@@ -3,7 +3,11 @@ const info = require('./info');
 
 const redirect = (req, res, next) => {
 	info(req.method, decodeURI(req.url));
-	if (req.url.endsWith('/') && req.url.length != 1) {
+	if (req.url.startsWith(`${nconf.get('SOURCE')}/`)) {
+		if (req.url.endsWith('/')) {
+			req.url = req.url.slice(0, -1);
+		}
+	} else if (req.url.endsWith('/') && req.url.length != 1) {
 		return res.redirect(req.url.slice(0, -1));
 	}
 	next();
@@ -20,10 +24,14 @@ const initUrl = (req, res, next) => {
 	}
 	if (req.method == 'POST') {
 		let { referer = '' } = req.headers;
-		suffix = referer.replace(req.app.get('requestUrl'), '');
+		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '');
 	}
 	// **Untitled Folder/
-	req.practicalDir = decodeURI(`${dir + suffix}`);
+	if (suffix) {
+		req.practicalDir = decodeURI(`${dir + suffix}`);
+	} else {
+		req.practicalDir = dir.slice(0, -1);
+	}
 	next();
 };
 
