@@ -13,6 +13,7 @@ const expr = expr => {
 	expr.post('/file/new-folder', routes.api.File.newFolder);
 	expr.post('/file/new-file', routes.api.File.newFile);
 	expr.delete('/file/delete', routes.api.File.remove);
+	expr.patch('/file/rename', routes.api.File.rename);
 };
 
 module.exports = expr;

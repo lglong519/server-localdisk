@@ -9,7 +9,7 @@ const newFolder = (req, res) => {
 			log(cprint.toRed(err));
 			return res.status(500).send(err);
 		}
-		res.send({
+		res.json({
 			status: 'ok'
 		});
 	});
@@ -21,7 +21,7 @@ const newFile = (req, res) => {
 			log(cprint.toRed(err));
 			return res.status(500).send(err);
 		}
-		res.send({
+		res.json({
 			status: 'ok'
 		});
 	});
@@ -29,23 +29,51 @@ const newFile = (req, res) => {
 
 const remove = (req, res) => {
 	let fileName = decodeURI(req.query.fileName);
-	fs.exists(`${req.practicalDir}/${fileName}`, result => {
-		if (!result) {
-			return res.status(404).send('ResourceNotFoundError');
-		}
-		fs.unlink(`${req.practicalDir}/${fileName}`, err => {
-			if (err) {
-				log(cprint.toRed(err));
-				return res.status(500).send(err);
+	let fullPath = `${req.practicalDir}/${fileName}`;
+	try {
+		if (fs.existsSync(fullPath)) {
+			let stats = fs.statSync(fullPath);
+			if (stats.isFile()) {
+				fs.unlinkSync(fullPath);
+			} else {
+				deleteAllInPath(fullPath);
 			}
-			res.send({
+			res.json({
 				status: 'ok'
 			});
-		});
+		} else {
+			return res.status(404).json({
+				error: 'ResourceNotFoundError'
+			});
+		}
+	} catch (e) {
+		return res.status(500).send(e);
+	}
+};
+
+function deleteAllInPath (path) {
+	let files = fs.readdirSync(path);
+	if (!files.length) {
+		fs.rmdirSync(path);
+		return;
+	}
+	files.forEach(item => {
+		let fullPath = `${path}/${item}`;
+		let stats = fs.statSync(fullPath);
+		if (stats.isFile()) {
+			fs.unlinkSync(fullPath);
+		} else {
+			deleteAllInPath(fullPath);
+		}
 	});
+	deleteAllInPath(path);
+}
+
+const rename = (req, res) => {
 
 };
 
 exports.newFolder = newFolder;
 exports.newFile = newFile;
 exports.remove = remove;
+exports.rename = rename;
