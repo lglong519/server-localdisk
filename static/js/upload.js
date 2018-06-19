@@ -11,6 +11,7 @@ let processing = document.getElementById('processing');
 let cancel = document.getElementById('cancel');
 let deleteFile = document.getElementById('deleteFile');
 let renameFile = document.getElementById('renameFile');
+let crud = document.getElementById('crud');
 
 window.onload = function () {
 	upload.value = null;
@@ -222,4 +223,16 @@ renameFile.onclick = function () {
 			},
 		});
 	}
+};
+
+window.onresize = window.onscroll = function () {
+	let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop, window.scrollY);
+	if (scrollTop > 130) {
+		if (!crud.className.includes('p-fixed')) {
+			crud.className += ' p-fixed';
+		}
+	} else {
+		crud.className = crud.className.replace('p-fixed', '');
+	}
+
 };

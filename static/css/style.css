@@ -78,12 +78,13 @@
 	.text-right {
 	   text-align: right;
 	}
-
+	/* 顶部全部按钮 */
 	.btngroup{
 		padding-left: 12px;
 	   padding-right: 12px;
 	   padding-bottom: 4px;
 	}
+	/* 选择文件-外容器 */
 	.upload {
 	   overflow: hidden;
 	   position: relative;
@@ -102,7 +103,7 @@
 	.upload:hover {
 	   background-color: #317ef3;
 	}
-
+	/* 选择文件 input */
 	.select-btn {
 	   display: block;
 	   z-index: 10;
@@ -133,6 +134,11 @@
 	   font-size: 15px;
 	   font-weight: 500;
 	   box-sizing: border-box;
+	}
+
+	/* 系统文件修改按钮 */
+	.btns{
+		text-align: right;
 	}
 
 	.create-btn {
@@ -374,4 +380,17 @@
 	.checked {
 	   box-shadow: 0 0 3px 0 #5cb938;
 	   background: #80f353;
+	}
+
+	.p-fixed{
+		z-index: 10;
+		position: fixed;
+		top: 0;
+		left: 50%;
+		width: 100%;
+		padding: 12px 10px 5px 0;
+		box-sizing: border-box;
+		transform: translateX(-50%);
+		background-color: #fff;
+		border-bottom: .5px solid #E9ECF0;
 	}
