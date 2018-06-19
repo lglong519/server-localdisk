@@ -70,7 +70,29 @@ function deleteAllInPath (path) {
 }
 
 const rename = (req, res) => {
-
+	let newName = decodeURI(req.query.newName);
+	let oldName = decodeURI(req.query.oldName);
+	let oldPath = `${req.practicalDir}/${oldName}`;
+	let newPath = `${req.practicalDir}/${newName}`;
+	try {
+		if (fs.existsSync(newName)) {
+			return res.status(409).json({
+				error: 'ConflictError'
+			});
+		}
+		if (fs.existsSync(oldPath)) {
+			fs.renameSync(oldPath, newPath);
+			res.json({
+				status: 'ok'
+			});
+		} else {
+			return res.status(404).json({
+				error: 'ResourceNotFoundError'
+			});
+		}
+	} catch (e) {
+		return res.status(500).send(e);
+	}
 };
 
 exports.newFolder = newFolder;

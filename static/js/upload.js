@@ -10,6 +10,7 @@ let toast = document.getElementById('toast');
 let processing = document.getElementById('processing');
 let cancel = document.getElementById('cancel');
 let deleteFile = document.getElementById('deleteFile');
+let renameFile = document.getElementById('renameFile');
 
 window.onload = function () {
 	upload.value = null;
@@ -171,6 +172,43 @@ deleteFile.onclick = function () {
 			success (res) {
 				if (res.status === 'ok') {
 					toast.innerHTML = '删除成功';
+					toast.style.display = 'block';
+					setTimeout(() => {
+						toast.className += ' show';
+					}, 10);
+					setTimeout(() => {
+						location.reload();
+					}, 1200);
+				} else {
+					console.error(res);
+				}
+			},
+		});
+	}
+};
+
+renameFile.onclick = function () {
+	let checked = document.querySelector('.checked');
+	if (!checked) {
+		return;
+	}
+	let oldName = checked.parentNode.parentNode.querySelector('.file-name').innerHTML;
+	let newName = prompt('新的名称', oldName) || '';
+	newName = newName.replace(/\s*/g, '');
+	if (newName && oldName != newName) {
+		request({
+			type: 'PATCH',
+			url: `${requestUrl}/file/rename`,
+			async: true,
+			cache: false,
+			data: {
+				oldName,
+				newName
+			},
+			dataType: 'json',
+			success (res) {
+				if (res.status === 'ok') {
+					toast.innerHTML = '修改成功';
 					toast.style.display = 'block';
 					setTimeout(() => {
 						toast.className += ' show';
