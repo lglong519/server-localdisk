@@ -3,6 +3,7 @@ const filesize = require('filesize');
 const moment = require('moment');
 const nconf = require('nconf');
 const Joi = require('joi');
+const getFolderSize = require('../../common/getFolderSize');
 
 /**
  * @type get
@@ -35,7 +36,8 @@ const index = (req, res) => {
 				}
 			}
 			files.forEach(item => {
-				let stats = fs.statSync(`${req.practicalDir}/${item}`);
+				let path = `${req.practicalDir}/${item}`;
+				let stats = fs.statSync(path);
 				let outputItem = {
 					name: item,
 					target: '_blank',
@@ -48,6 +50,9 @@ const index = (req, res) => {
 
 				if (stats.isDirectory()) {
 					outputItem.target = '_self';
+					let info = getFolderSize(path);
+					outputItem.size = filesize(info.size);
+					outputItem.files = info.files;
 					foldersArr.push(outputItem);
 					return;
 				}

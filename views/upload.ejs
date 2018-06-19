@@ -82,8 +82,11 @@
 							<div class="details flex flex-row align-center">
 								<div class="flex">
 									<div class="file-name"><%=list[i].name%></div>
-									<div class="info">
-										<span class="size"><%=list[i].size%></span>
+									<div class="info flex-row justify-between">
+										<span><%=list[i].size%></span>
+										<% if(list[i].files){%>
+											<span class="flex text-center">_<%=list[i].files%>_</span>
+										<%}%>
 										<span class="mtime text-right"><%=list[i].mtime%></span>
 									</div>
 								</div>

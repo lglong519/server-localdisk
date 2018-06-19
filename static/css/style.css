@@ -283,13 +283,11 @@
 	   margin-right: .75em;
 	}
 
-	.stripe,
-	.stripe .size {
+	.stripe {
 	   background-color: #EDF6FF;
 	}
 
-	.files li>a:hover,
-	.files li>a:hover .size {
+	.files li>a:hover {
 	   background-color: #FBF7FF;
 	}
 
