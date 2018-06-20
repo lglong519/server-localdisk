@@ -2,7 +2,7 @@ const nconf = require('nconf');
 const info = require('./info');
 
 const redirect = (req, res, next) => {
-	info(req.method, decodeURI(req.url));
+	info(req.ip.replace(/[a-z:]/gi, ''), `\x1B[32m${req.method}\x1B[39m`, decodeURI(req.url));
 	if (req.url.startsWith(`${nconf.get('SOURCE')}/`)) {
 		if (req.url.endsWith('/')) {
 			req.url = req.url.slice(0, -1);
