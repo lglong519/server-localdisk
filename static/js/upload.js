@@ -12,6 +12,8 @@ let cancel = document.getElementById('cancel');
 let deleteFile = document.getElementById('deleteFile');
 let renameFile = document.getElementById('renameFile');
 let crud = document.getElementById('crud');
+let qrcode = document.getElementById('qrcode');
+let qrcodeSmall = document.getElementById('qrcodeSmall');
 
 window.onload = function () {
 	upload.value = null;
@@ -19,6 +21,8 @@ window.onload = function () {
 	if (!upload.files.length) {
 		disable(confirmBtn, reset);
 	}
+	autoHook();
+	new QRCode(qrcode, requestUrl);
 };
 upload.onchange = function () {
 	let filename = ' ';
@@ -123,6 +127,13 @@ newFile.onclick = function () {
 window.socket.on('processing', data => {
 	processing.className = 'display';
 	processing.innerHTML = data.percentage;
+	qrcodeSmall.style.opacity = 0;
+	if (data.percentage == '100%') {
+		setTimeout(() => {
+			processing.className = '';
+			qrcodeSmall.style.opacity = 1;
+		}, 200);
+	}
 });
 
 document.querySelector('.files').onclick = function () {
@@ -225,14 +236,30 @@ renameFile.onclick = function () {
 	}
 };
 
-window.onresize = window.onscroll = function () {
+window.onresize = window.onscroll = autoHook;
+function autoHook () {
 	let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop, window.scrollY);
-	if (scrollTop > 130) {
+	if (scrollTop > 91) {
 		if (!crud.className.includes('p-fixed')) {
 			crud.className += ' p-fixed';
 		}
 	} else {
 		crud.className = crud.className.replace('p-fixed', '');
 	}
+}
 
+document.body.onclick = function () {
+	qrcode.className = 'qrcode';
+	setTimeout(() => {
+		qrcode.style.display = 'none';
+	}, 600);
+};
+
+qrcodeSmall.onclick = function () {
+	qrcode.style.display = 'block';
+	setTimeout(() => {
+		qrcode.className += ' display';
+	}, 10);
+	event.stopPropagation();
+	return false;
 };

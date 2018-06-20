@@ -91,7 +91,6 @@
 	   display: block;
 	   height: 32px;
 	   line-height: 32px;
-	   margin: 8px 0 8px;
 	   padding: 0 10px;
 	   border: 1px solid #38f;
 	   text-align: center;
@@ -137,8 +136,13 @@
 	}
 
 	/* 系统文件修改按钮 */
-	.btns{
+	.crud{
 		text-align: right;
+	}
+
+	.crud-box{
+		height: 30px;
+		padding: 12px 0 5px 0;
 	}
 
 	.create-btn {
@@ -265,6 +269,7 @@
 
 	.waiting {
 	   padding-bottom: 10px;
+	   margin-bottom: 10px;
 	}
 
 	.mr-2 {
@@ -347,10 +352,11 @@
 	   height: 35px;
 	   line-height: 35px;
 	   border-radius: 50%;
-	   background: rgba(2, 1, 16, 0.3);
+	   background: rgba(2, 1, 16, 0.4);
 	   text-align: center;
-	   color: rgb(198, 241, 198);
-	   font-size: 12px;
+	   color: #FFFF0E;
+		font-size: 12px;
+		font-weight: bold;
 	}
 
 	#processing.display {
@@ -388,9 +394,49 @@
 		top: 0;
 		left: 50%;
 		width: 100%;
-		padding: 12px 10px 5px 0;
+		padding: 12px 12px 5px 0;
 		box-sizing: border-box;
 		transform: translateX(-50%);
 		background-color: #fff;
 		border-bottom: .5px solid #E9ECF0;
+	}
+
+	.qrcode{
+		display: none;
+		z-index: 10;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.4);
+		opacity: 0;
+		text-align: center;
+		transition: opacity .6s;
+	}
+
+	.qrcode img{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	.display{
+		opacity: 1;
+	}
+
+	.qrcode-small{
+		z-index: 10;
+		position: absolute;
+		top: 5px;
+		right: 10px;
+		width: 25px;
+		height: 25px;
+		cursor: pointer;
+		transition: opacity .6s;
+	}
+	.qrcode-small img{
+		width: 100%;
+		height: 100%;
 	}

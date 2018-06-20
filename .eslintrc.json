@@ -2,7 +2,8 @@
 	"extends": "lglong519/standard",
 	"globals": {
 		"ActiveXObject":false,
-		"request":true
+		"request":true,
+		"QRCode":true
 	}
 	
 }

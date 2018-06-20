@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Localdisk</title>
 	<link rel="icon" href="/folder.png">
 	<link rel="stylesheet" href="/css/style.css">
@@ -27,12 +27,14 @@
 							<input type="reset" value="重置" class="upload-btn reset disabled" id='reset'>
 						</div>
 					</div>
-					<div class="btns" id="crud">
-						<input type="button" value="+文件夹" class="create-btn" id='newFolder'>
-						<input type="button" value="+写入" class="create-btn reset" id='newFile'>
-						<input type="button" value="重命名" class="create-btn rename" id='renameFile'>
-						<input type="button" value="删除" class="create-btn delete" id='deleteFile'>
-						<input type="button" value="取消" class="create-btn cancel" id='cancel'>
+					<div class="crud-box">
+						<div class="crud" id="crud">
+							<input type="button" value="+文件夹" class="create-btn" id='newFolder'>
+							<input type="button" value="+写入" class="create-btn reset" id='newFile'>
+							<input type="button" value="重命名" class="create-btn rename" id='renameFile'>
+							<input type="button" value="删除" class="create-btn delete" id='deleteFile'>
+							<input type="button" value="取消" class="create-btn cancel" id='cancel'>
+						</div>
 					</div>
 			</div>
 		</form>
@@ -102,10 +104,15 @@
 			<h1 class="empty">Empty</h1>
 		<% } %>
 		<div id="processing">0%</div>
+		<div id='qrcodeSmall' class="qrcode-small">
+			<img src="qrcode.svg" alt="">
+		</div>
 	</div>
 	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
 	<div class="toast" id='toast'>创建成功</div>
+	<div id="qrcode" class="qrcode"></div>
 	<script src="/js/socket.io.js"></script>
+	<script src="/js/qrcode.js"></script>
 	<script src="/js/request.js"></script>
 	<script>
 		window.socket = io.connect('<%=ioUrl%>');

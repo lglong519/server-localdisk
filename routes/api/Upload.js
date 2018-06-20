@@ -16,7 +16,6 @@ const upload = (req, res) => {
 	form.on('file', (filed, file) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));
 		fs.renameSync(file.path, fileName);
-		info('Uploaded', fileName);
 		log(`upload success: ${fileName}`);
 	});
 	let per;
@@ -33,7 +32,9 @@ const upload = (req, res) => {
 	// 所有操作完成，代理 node
 	form.parse(req, (err, fields, file) => {
 		if (err) {
-			info(String(err));
+			req.app.get('io').emit('processing', {
+				percentage: '100%'
+			});
 			log(String(err));
 		}
 		res.redirect(req.practicalDir.replace(nconf.get('UPLOAD_DIR').slice(0, -1), '') || '/');
