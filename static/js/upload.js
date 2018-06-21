@@ -79,46 +79,41 @@ newFolder.onclick = function () {
 			},
 			dataType: 'json',
 			success (res) {
-				if (res.status === 'ok') {
-					toast.style.display = 'block';
-					setTimeout(() => {
-						toast.className += ' show';
-					}, 10);
-					setTimeout(() => {
-						location.reload();
-					}, 1200);
-				} else {
-					console.error(res);
-				}
+				processResult(res);
 			},
 		});
 	}
 };
 newFile.onclick = function () {
-	let content = prompt('写入的内容') || '';
-	content = content.replace(/\s*/g, '');
+	let checked = document.querySelector('.checked');
+	let fileName;
+	let content;
+	let api = 'new-file';
+	let method = 'POST';
+	if (checked) {
+		fileName = checked.parentNode.parentNode.querySelector('.file-name').innerHTML;
+	}
+	if (fileName) {
+		api = 'append';
+		method = 'PUT';
+		content = prompt(`将写入文件：${fileName}，\n请输入写入的内容`) || '';
+	} else {
+		content = prompt('写入的内容') || '';
+	}
+	content = content.replace(/^\s*|\s*$/g, '');
 	if (content) {
 		request({
-			type: 'post',
-			url: `${requestUrl}/file/new-file`,
+			type: method,
+			url: `${requestUrl}/file/${api}`,
 			async: true,
-			cache: false,
+			cache: true,
 			data: {
-				content
+				content,
+				fileName
 			},
 			dataType: 'json',
 			success (res) {
-				if (res.status === 'ok') {
-					toast.style.display = 'block';
-					setTimeout(() => {
-						toast.className += ' show';
-					}, 100);
-					setTimeout(() => {
-						location.reload();
-					}, 1200);
-				} else {
-					console.error(res);
-				}
+				processResult(res, '写入成功');
 			},
 		});
 	}
@@ -170,7 +165,7 @@ deleteFile.onclick = function () {
 	}
 	let file = checked.parentNode.parentNode.querySelector('.file-name').innerHTML;
 
-	let cf = confirm(`Delete file:${file}?`);
+	let cf = confirm(`Delete File: ${file} ?`);
 	if (cf) {
 		request({
 			type: 'delete',
@@ -182,18 +177,7 @@ deleteFile.onclick = function () {
 			},
 			dataType: 'json',
 			success (res) {
-				if (res.status === 'ok') {
-					toast.innerHTML = '删除成功';
-					toast.style.display = 'block';
-					setTimeout(() => {
-						toast.className += ' show';
-					}, 10);
-					setTimeout(() => {
-						location.reload();
-					}, 1200);
-				} else {
-					console.error(res);
-				}
+				processResult(res, '删除成功');
 			},
 		});
 	}
@@ -219,18 +203,7 @@ renameFile.onclick = function () {
 			},
 			dataType: 'json',
 			success (res) {
-				if (res.status === 'ok') {
-					toast.innerHTML = '修改成功';
-					toast.style.display = 'block';
-					setTimeout(() => {
-						toast.className += ' show';
-					}, 10);
-					setTimeout(() => {
-						location.reload();
-					}, 1200);
-				} else {
-					console.error(res);
-				}
+				processResult(res, '修改成功');
 			},
 		});
 	}
@@ -263,3 +236,23 @@ qrcodeSmall.onclick = function () {
 	event.stopPropagation();
 	return false;
 };
+
+toast.onclick = function () {
+	this.className = 'toast';
+};
+
+function processResult (res, message = '创建成功') {
+	toast.style.display = 'inline-block';
+	if (res.status === 'ok') {
+		toast.innerHTML = message;
+		setTimeout(() => {
+			location.reload();
+		}, 1000);
+	} else {
+		toast.innerHTML = JSON.stringify(res);
+		console.error(res);
+	}
+	setTimeout(() => {
+		toast.className += ' show';
+	}, 100);
+}

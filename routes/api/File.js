@@ -1,6 +1,8 @@
 const fs = require('fs');
 const cprint = require('color-print');
 const log = require('../../common/log');
+const moment = require('moment');
+const Joi = require('joi');
 
 const newFolder = (req, res) => {
 	let { folderName } = req.body;
@@ -16,9 +18,9 @@ const newFolder = (req, res) => {
 };
 const newFile = (req, res) => {
 	let { content } = req.body;
-	fs.appendFile(`${req.practicalDir}/temp-${Date.now()}.txt`, content, err => {
+	fs.appendFile(`${req.practicalDir}/${moment(new Date()).format('YYYYMMDD_HHmmss')}.txt`, `${content}\n`, err => {
 		if (err) {
-			log(cprint.toRed(err));
+			log(cprint.toRed(err), req);
 			return res.status(500).send(err);
 		}
 		res.json({
@@ -47,6 +49,7 @@ const remove = (req, res) => {
 			});
 		}
 	} catch (e) {
+		log(cprint.toRed(e), req);
 		return res.status(500).send(e);
 	}
 };
@@ -91,11 +94,38 @@ const rename = (req, res) => {
 			});
 		}
 	} catch (e) {
+		log(cprint.toRed(e), req);
 		return res.status(500).send(e);
 	}
+};
+
+const append = (req, res) => {
+	const schema = Joi.object().keys({
+		content: Joi.string().required(),
+		fileName: Joi.string().required(),
+	});
+	const result = Joi.validate(req.query, schema, {
+		allowUnknown: true,
+		abortEarly: true
+	});
+	if (result.error) {
+		log(cprint.toRed(result.error), req);
+		return res.status(409).json(result.error);
+	}
+	const params = result.value;
+	fs.appendFile(`${req.practicalDir}/${params.fileName}`, `${params.content}\n`, err => {
+		if (err) {
+			log(cprint.toRed(err), req);
+			return res.status(500).send(err);
+		}
+		res.json({
+			status: 'ok'
+		});
+	});
 };
 
 exports.newFolder = newFolder;
 exports.newFile = newFile;
 exports.remove = remove;
 exports.rename = rename;
+exports.append = append;

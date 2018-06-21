@@ -16,7 +16,7 @@ const upload = (req, res) => {
 	form.on('file', (filed, file) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));
 		fs.renameSync(file.path, fileName);
-		log(`upload success: ${fileName}`);
+		log(`upload success: ${fileName}`, req);
 	});
 	let per;
 	form.on('progress', (bytesReceived, bytesExpected) => {

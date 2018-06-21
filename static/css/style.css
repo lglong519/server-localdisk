@@ -19,10 +19,18 @@
 	   box-sizing: border-box;
 	}
 
+	.comtainer::after{
+		content: '';
+		display: table;
+	}
+
 	@media screen and (min-width:768px) {
 	   .comtainer {
 	      padding: 15px;
-	   }
+		}
+		.p-fixed{
+			padding-right: 27px!important;
+		}
 	}
 
 	/*flex  */
@@ -229,7 +237,8 @@
 		float: right;
 	}
 	.empty {
-	   text-align: center
+		text-align: center;
+		color:rgb(177, 177, 177);
 	}
 
 	.disabled,
@@ -323,18 +332,19 @@
 	}
 
 	.toast {
-	   display: none;
+		display: none;
 	   position: fixed;
-	   top: -60px;
+	   top: -100%;
 	   left: 50%;
-	   margin-left: -60px;
-	   width: 120px;
-	   height: 60px;
-	   line-height: 60px;
-	   border-radius: 10px;
-	   background: rgba(2, 1, 16, 0.3);
+		max-width: 200px;
+		padding: 15px 20px;
+	   transform: translateX(-50%);
+		border-radius: 10px;
+		line-height: 22px;
+	   background: rgba(2, 1, 16, 0.6);
 	   color: #fff;
-	   text-align: center;
+		text-align: center;
+		word-break: break-all;
 	   transition: all .4s ease;
 	}
 
@@ -393,6 +403,7 @@
 		position: fixed;
 		top: 0;
 		left: 50%;
+		max-width: 768px;
 		width: 100%;
 		padding: 12px 12px 5px 0;
 		box-sizing: border-box;
@@ -429,7 +440,7 @@
 	.qrcode-small{
 		z-index: 10;
 		position: absolute;
-		top: 5px;
+		top: 12px;
 		right: 10px;
 		width: 25px;
 		height: 25px;

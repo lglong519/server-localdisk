@@ -35,7 +35,9 @@ expr.set('io', io);
 
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();
-expr.use('', express.static(staticDir));
+expr.use('', express.static(staticDir, {
+	dotfiles: 'allow',
+}));
 
 require('./routes')(expr);
 
