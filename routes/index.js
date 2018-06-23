@@ -16,6 +16,7 @@ const expr = expr => {
 	expr.put('/file/append', routes.api.File.append);
 	expr.delete('/file/delete', routes.api.File.remove);
 	expr.patch('/file/rename', routes.api.File.rename);
+	expr.post('/folder/download', routes.api.Folder.download);
 };
 
 module.exports = expr;

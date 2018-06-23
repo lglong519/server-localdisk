@@ -3,6 +3,7 @@ const cprint = require('color-print');
 const log = require('../../common/log');
 const moment = require('moment');
 const Joi = require('joi');
+const deleteAllInPath = require('../../common/deleteAllInPath');
 
 const newFolder = (req, res) => {
 	let { folderName } = req.body;
@@ -53,24 +54,6 @@ const remove = (req, res) => {
 		return res.status(500).send(e);
 	}
 };
-
-function deleteAllInPath (path) {
-	let files = fs.readdirSync(path);
-	if (!files.length) {
-		fs.rmdirSync(path);
-		return;
-	}
-	files.forEach(item => {
-		let fullPath = `${path}/${item}`;
-		let stats = fs.statSync(fullPath);
-		if (stats.isFile()) {
-			fs.unlinkSync(fullPath);
-		} else {
-			deleteAllInPath(fullPath);
-		}
-	});
-	deleteAllInPath(path);
-}
 
 const rename = (req, res) => {
 	let newName = decodeURI(req.query.newName);

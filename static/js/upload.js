@@ -14,6 +14,7 @@ let renameFile = document.getElementById('renameFile');
 let crud = document.getElementById('crud');
 let qrcode = document.getElementById('qrcode');
 let qrcodeSmall = document.getElementById('qrcodeSmall');
+let download = document.getElementById('download');
 
 window.onload = function () {
 	upload.value = null;
@@ -256,3 +257,40 @@ function processResult (res, message = '创建成功') {
 		toast.className += ' show';
 	}, 100);
 }
+
+download.onclick = function () {
+	let checked = document.querySelector('.checked');
+	if (!checked) {
+		return;
+	}
+	let anchor = checked.parentNode.parentNode;
+	if (anchor.target === '_blank') {
+		anchor.setAttribute('download', '');
+		anchor.click();
+	}
+	if (anchor.target === '_self') {
+		let folderName = anchor.querySelector('.file-name').innerHTML;
+		request({
+			type: 'POST',
+			url: `${requestUrl}/folder/download`,
+			async: true,
+			cache: false,
+			data: {
+				folderName
+			},
+			dataType: 'json',
+			success (res) {
+				if (res.status === 'ok') {
+					let uri = `${requestUrl}/${res.zip}`;
+					let downloadLink = document.createElement('a');
+					downloadLink.href = uri;
+					downloadLink.download = `${folderName}.zip`;
+					document.body.appendChild(downloadLink);
+					downloadLink.click();
+					document.body.removeChild(downloadLink);
+				}
+
+			},
+		});
+	}
+};

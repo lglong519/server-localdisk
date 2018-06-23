@@ -3,6 +3,7 @@ const nconf = require('nconf');
 const bodyParser = require('body-parser');
 const info = require('./common/info');
 const listenWithoutOccupied = require('./common/listenWithoutOccupied');
+const deleteAllInPath = require('./common/deleteAllInPath');
 
 // 引入expr模块
 const express = require('express');
@@ -27,6 +28,11 @@ fs.exists(UPLOAD_DIR, result => {
 		});
 	}
 });
+
+deleteAllInPath(nconf.get('TMP'));
+if (!fs.existsSync(nconf.get('TMP'))) {
+	fs.mkdirSync(nconf.get('TMP'));
+}
 
 // 配置ejs模板引擎
 expr.set('view engine', 'ejs');
