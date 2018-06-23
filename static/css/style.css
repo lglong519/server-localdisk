@@ -427,10 +427,31 @@
 	}
 
 	.qrcode img{
+		z-index: 15;
 		position: absolute;
 		left: 50%;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
+	}
+
+	.mask{
+		z-index: 20;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		height:256px;
+		width:256px;
+		opacity: 0;
+		transform: translateX(-50%) translateY(-50%);
+		background: rgba(255, 255, 255, .6);
+		transition: opacity .2s;
+	}
+
+	.mask img{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: #008D0B;
 	}
 
 	.display{

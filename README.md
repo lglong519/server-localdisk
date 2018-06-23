@@ -1,5 +1,5 @@
 # localdisk
-	express+ejs+...
+	express+ejs+socket+...
 ## preview
 ---
 ### Index
@@ -13,6 +13,10 @@
 ### QRCode
 ***
 ![QRCode](preview/003.jpg)
+***
+### Scan QRCode
+***
+![QRCode](preview/scan.gif)
 ***
 ### Console Info
 ***

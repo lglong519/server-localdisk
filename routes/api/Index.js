@@ -16,7 +16,8 @@ const index = (req, res) => {
 		return;
 	}
 	const schema = Joi.object().keys({
-		sort: Joi.string()
+		sort: Joi.string(),
+		client: Joi.string()
 	});
 	const result = Joi.validate(req.query, schema);
 	if (result.error) {

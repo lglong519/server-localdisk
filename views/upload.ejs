@@ -111,7 +111,11 @@
 	</div>
 	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
 	<div class="toast" id='toast'>创建成功</div>
-	<div id="qrcode" class="qrcode"></div>
+	<div id="qrcode" class="qrcode">
+		<div class="mask">
+			<img src="/check.svg" alt="">
+		</div>
+	</div>
 	<script src="/js/socket.io.js"></script>
 	<script src="/js/qrcode.js"></script>
 	<script src="/js/request.js"></script>

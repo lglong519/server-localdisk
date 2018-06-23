@@ -16,6 +16,12 @@ let qrcode = document.getElementById('qrcode');
 let qrcodeSmall = document.getElementById('qrcodeSmall');
 let download = document.getElementById('download');
 
+let client = localStorage.getItem('client');
+if (!client) {
+	client = new Date().getTime();
+	localStorage.setItem('client', client);
+}
+
 window.onload = function () {
 	upload.value = null;
 	fileName.innerHTML = '无';
@@ -23,7 +29,8 @@ window.onload = function () {
 		disable(confirmBtn, reset);
 	}
 	autoHook();
-	new QRCode(qrcode, requestUrl);
+	new QRCode(qrcode, `${requestUrl}?client=${client}`);
+	scanResponse();
 };
 upload.onchange = function () {
 	let filename = ' ';
@@ -120,6 +127,9 @@ newFile.onclick = function () {
 	}
 };
 
+/**
+ * @description 接收文件上传进度
+ */
 window.socket.on('processing', data => {
 	processing.className = 'display';
 	processing.innerHTML = data.percentage;
@@ -129,6 +139,20 @@ window.socket.on('processing', data => {
 			processing.className = '';
 			qrcodeSmall.style.opacity = 1;
 		}, 200);
+	}
+});
+
+/**
+ * @description 接收二维码被扫描后的信息，显示成功图标，隐藏二维码
+ */
+window.socket.on(client, data => {
+	if (data.status === 'ok') {
+		let mask = document.querySelector('.mask');
+		mask.className = 'mask display';
+		setTimeout(() => {
+			mask.className = 'mask';
+			hideQrcode();
+		}, 1800);
 	}
 });
 
@@ -222,20 +246,23 @@ function autoHook () {
 	}
 }
 
-document.body.onclick = function () {
+document.body.onclick = hideQrcode;
+function hideQrcode () {
 	qrcode.className = 'qrcode';
 	setTimeout(() => {
 		qrcode.style.display = 'none';
 	}, 600);
-};
+}
 
+/**
+ * @description 显示二维码
+ */
 qrcodeSmall.onclick = function () {
 	qrcode.style.display = 'block';
 	setTimeout(() => {
 		qrcode.className += ' display';
 	}, 10);
 	event.stopPropagation();
-	return false;
 };
 
 toast.onclick = function () {
@@ -289,8 +316,19 @@ download.onclick = function () {
 					downloadLink.click();
 					document.body.removeChild(downloadLink);
 				}
-
 			},
 		});
 	}
 };
+
+/**
+ * @description 扫码成功向服务器响应
+ */
+function scanResponse () {
+	let reg = /client=([^&]+)/;
+	let getClient = location.href.match(reg);
+	if (getClient) {
+		window.socket.emit('scanresponse', { client: getClient[1] });
+		window.history.pushState({}, 0, location.href.replace(reg, ''));
+	}
+}

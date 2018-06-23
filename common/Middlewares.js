@@ -6,6 +6,10 @@ const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico') {
 		return res.end();
 	}
+	let { client } = req.query;
+	if (client) {
+		req.app.get('io').emit(client, { status: 'ok' });
+	}
 	next();
 };
 
@@ -32,7 +36,7 @@ const initUrl = (req, res, next) => {
 	}
 	if (/POST|DELETE|PATCH|PUT/i.test(req.method)) {
 		let { referer = '' } = req.headers;
-		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '');
+		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '').replace(/\?.*/, '');
 	}
 	// **Untitled Folder/
 	if (suffix) {
