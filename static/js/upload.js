@@ -294,6 +294,7 @@ download.onclick = function () {
 	if (anchor.target === '_blank') {
 		anchor.setAttribute('download', '');
 		anchor.click();
+		anchor.removeAttribute('download');
 	}
 	if (anchor.target === '_self') {
 		let folderName = anchor.querySelector('.file-name').innerHTML;
