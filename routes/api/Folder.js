@@ -5,7 +5,7 @@ const nconf = require('nconf');
 const download = (req, res) => {
 	let { folderName } = req.body;
 
-	let zipFile = `${nconf.get('TMP')}/${folderName + Date.now()}.zip`;
+	let zipFile = `${nconf.get('_TMP')}/${folderName + Date.now()}.zip`;
 	let output = fs.createWriteStream(zipFile);
 	let archive = archiver('zip', {
 		zlib: { level: 9 }

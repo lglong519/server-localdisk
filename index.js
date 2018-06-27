@@ -29,10 +29,10 @@ fs.exists(UPLOAD_DIR, result => {
 	}
 });
 
-if (fs.existsSync(nconf.get('TMP'))) {
-	deleteAllInPath(nconf.get('TMP'));
+if (fs.existsSync(nconf.get('_TMP'))) {
+	deleteAllInPath(nconf.get('_TMP'));
 }
-fs.mkdirSync(nconf.get('TMP'));
+fs.mkdirSync(nconf.get('_TMP'));
 
 // 配置ejs模板引擎
 expr.set('view engine', 'ejs');
