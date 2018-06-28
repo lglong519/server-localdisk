@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const info = require('./common/info');
 const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 const deleteAllInPath = require('./common/deleteAllInPath');
+const Middlewares = require('./common/Middlewares');
 
 // 引入expr模块
 const express = require('express');
@@ -38,6 +39,8 @@ fs.mkdirSync(nconf.get('_TMP'));
 expr.set('view engine', 'ejs');
 // bind io to express
 expr.set('io', io);
+
+expr.use(Middlewares.urlFilter);
 
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();

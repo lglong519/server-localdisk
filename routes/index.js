@@ -4,7 +4,6 @@ const routes = {
 	api: requireDir('./api')
 };
 const expr = expr => {
-	expr.use(Middlewares.urlFilter);
 	expr.use(Middlewares.redirect);
 	expr.use(Middlewares.initUrl);
 	expr.use(Middlewares.initCors);

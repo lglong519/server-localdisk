@@ -6,7 +6,12 @@ const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico') {
 		return res.end();
 	}
-	let { client } = req.query;
+	let { client, static: server } = req.query;
+
+	let curl = decodeURI(req.url);
+	if (!server && !(/\/js(.*)?\.map/).test(curl)) {
+		info(cprint.toDarkGray(req.ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), curl);
+	}
 	if (client) {
 		req.app.get('io').emit(client, { status: 'ok' });
 	}
@@ -14,7 +19,6 @@ const urlFilter = (req, res, next) => {
 };
 
 const redirect = (req, res, next) => {
-	info(cprint.toDarkGray(req.ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), decodeURI(req.url));
 	if (req.url.startsWith(`${nconf.get('SOURCE')}/`)) {
 		if (req.url.endsWith('/')) {
 			req.url = req.url.slice(0, -1);

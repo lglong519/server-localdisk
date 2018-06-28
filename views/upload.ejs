@@ -5,8 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Localdisk</title>
-	<link rel="icon" href="/folder.png">
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="icon" href="/server-folder.png?static=1">
+	<link rel="stylesheet" href="/css/style.css?static=1">
 </head>
 
 <body>
@@ -72,12 +72,12 @@
 
 							<div class="img-box">
 									<% if (list[i].target=='_self') { %>
-										<img class="img-small" src="/folder.svg" />
+										<img class="img-small" src="/server-folder.svg?static=1" />
 									<% }else{ %>
 										<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i].name)) { %>
 											<img class="img-small" src="<%=list[i].link%>" />
 										<% }else{ %>
-											<img class="img-small" src="/file-b.svg" />
+											<img class="img-small" src="/server-file-b.svg?static=1" />
 										<% } %>
 									<% } %>
 							</div>
@@ -106,23 +106,23 @@
 		<% } %>
 		<div id="processing">0%</div>
 		<div id='qrcodeSmall' class="qrcode-small">
-			<img src="/qrcode.svg" alt="">
+			<img src="/server-qrcode.svg?static=1" alt="">
 		</div>
 	</div>
 	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
 	<div class="toast" id='toast'>创建成功</div>
 	<div id="qrcode" class="qrcode">
 		<div class="mask">
-			<img src="/check.svg" alt="">
+			<img src="/server-check.svg?static=1" alt="">
 		</div>
 	</div>
-	<script src="/js/socket.io.js"></script>
-	<script src="/js/qrcode.js"></script>
-	<script src="/js/request.js"></script>
+	<script src="/js/socket.io.js?static=1"></script>
+	<script src="/js/qrcode.js?static=1"></script>
+	<script src="/js/request.js?static=1"></script>
 	<script>
 		window.socket = io.connect('<%=ioUrl%>');
 </script>
-	<script src="/js/upload.js"></script>
+	<script src="/js/upload.js?static=1"></script>
 </body>
 
 </html>

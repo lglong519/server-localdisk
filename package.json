@@ -4,7 +4,7 @@
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
-    "test": "supervisor index",
+    "test": "supervisor -i './static' index",
     "dev": "node index"
   },
   "keywords": [
