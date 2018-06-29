@@ -11,7 +11,7 @@ const express = require('express');
 const expr = express();
 let server = require('http').Server(expr);
 let io = require('socket.io')(server);
-
+require('./service/Broadcast')(io);
 nconf.env().file('.config');
 nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT']);
 

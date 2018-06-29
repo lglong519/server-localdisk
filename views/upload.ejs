@@ -75,7 +75,7 @@
 										<img class="img-small" src="/server-folder.svg?static=1" />
 									<% }else{ %>
 										<% if (/(jpg|gif|png|jpeg|ico|svg)$/i.test(list[i].name)) { %>
-											<img class="img-small" src="<%=list[i].link%>" />
+											<img class="img-small" src="<%=list[i].link%>?static=1" />
 										<% }else{ %>
 											<img class="img-small" src="/server-file-b.svg?static=1" />
 										<% } %>

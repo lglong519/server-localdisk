@@ -333,3 +333,19 @@ function scanResponse () {
 		window.history.pushState({}, 0, location.href.replace(reg, ''));
 	}
 }
+
+window.socket.on('broadcastReceiver', msg => {
+	if (msg.status === 'resolved') {
+		location.reload();
+	} else {
+		console.error(msg);
+	}
+});
+
+const restart = () => {
+	let code = prompt('认证码') || '';
+	code = code.replace(/\s*/g, '');
+	if (code) {
+		window.socket.emit('broadcast', { code });
+	}
+};

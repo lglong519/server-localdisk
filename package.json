@@ -1,6 +1,6 @@
 {
   "name": "server-localdisk",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
@@ -10,22 +10,27 @@
   "keywords": [
     "localdisk"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lglong519/server-localdisk.git"
+  },
   "author": "lglong519",
   "license": "ISC",
   "dependencies": {
+    "archiver": "^2.1.1",
+    "bcrypt-nodejs": "0.0.3",
+    "color-print": "^1.0.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "filesize": "^3.6.1",
     "formidable": "^1.1.1",
+    "joi": "^13.4.0",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",
-    "require-dir": "^1.0.0"
+    "require-dir": "^1.0.0",
+    "socket.io": "^2.1.1"
   },
   "devDependencies": {
-    "archiver": "^2.1.1",
-    "color-print": "^1.0.2",
-    "eslint-config-lglong519": "github:lglong519/eslint-config",
-    "joi": "^13.4.0",
-    "socket.io": "^2.1.1"
+    "eslint-config-lglong519": "github:lglong519/eslint-config"
   }
 }
