@@ -146,7 +146,7 @@ window.socket.on('processing', data => {
  * @description 接收二维码被扫描后的信息，显示成功图标，隐藏二维码
  */
 window.socket.on(client, data => {
-	if (data.status === 'ok') {
+	if (data.status === 'success') {
 		let mask = document.querySelector('.mask');
 		mask.className = 'mask display';
 		setTimeout(() => {
@@ -271,7 +271,7 @@ toast.onclick = function () {
 
 function processResult (res, message = '创建成功') {
 	toast.style.display = 'inline-block';
-	if (res.status === 'ok') {
+	if (res.status === 'success') {
 		toast.innerHTML = message;
 		setTimeout(() => {
 			location.reload();
@@ -308,7 +308,7 @@ download.onclick = function () {
 			},
 			dataType: 'json',
 			success (res) {
-				if (res.status === 'ok') {
+				if (res.status === 'success') {
 					let uri = `${requestUrl}/${res.zip}`;
 					let downloadLink = document.createElement('a');
 					downloadLink.href = uri;

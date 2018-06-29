@@ -13,7 +13,7 @@ const urlFilter = (req, res, next) => {
 		info(cprint.toDarkGray(req.ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), curl);
 	}
 	if (client) {
-		req.app.get('io').emit(client, { status: 'ok' });
+		req.app.get('io').emit(client, { status: 'success' });
 	}
 	next();
 };

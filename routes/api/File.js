@@ -13,7 +13,7 @@ const newFolder = (req, res) => {
 			return res.status(500).send(err);
 		}
 		res.json({
-			status: 'ok'
+			status: 'success'
 		});
 	});
 };
@@ -25,7 +25,7 @@ const newFile = (req, res) => {
 			return res.status(500).send(err);
 		}
 		res.json({
-			status: 'ok'
+			status: 'success'
 		});
 	});
 };
@@ -42,7 +42,7 @@ const remove = (req, res) => {
 				deleteAllInPath(fullPath);
 			}
 			res.json({
-				status: 'ok'
+				status: 'success'
 			});
 		} else {
 			return res.status(404).json({
@@ -69,7 +69,7 @@ const rename = (req, res) => {
 		if (fs.existsSync(oldPath)) {
 			fs.renameSync(oldPath, newPath);
 			res.json({
-				status: 'ok'
+				status: 'success'
 			});
 		} else {
 			return res.status(404).json({
@@ -102,7 +102,7 @@ const append = (req, res) => {
 			return res.status(500).send(err);
 		}
 		res.json({
-			status: 'ok'
+			status: 'success'
 		});
 	});
 };

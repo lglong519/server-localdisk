@@ -15,7 +15,7 @@ const download = (req, res) => {
 	archive.finalize();
 	output.on('close', () => {
 		res.json({
-			status: 'ok',
+			status: 'success',
 			zip: zipFile.replace('./static/', '')
 		});
 	});
