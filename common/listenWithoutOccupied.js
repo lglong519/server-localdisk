@@ -20,10 +20,10 @@ const listenWithoutOccupied = (app, port, type) => {
 			message = `${type} listenning on: ${cprint.toYellow(URL)}`;
 		}
 		app.listen(port, () => {
-			log(message);
+			log(message, 'server');
 		});
 		if (type !== 'Server') {
-			log(message);
+			log(message, 'server');
 		}
 	});
 

@@ -1,10 +1,10 @@
 {
   "name": "server-localdisk",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
-    "test": "supervisor -i './static' index",
+    "test": "supervisor -i './static' --no-restart-on error index",
     "dev": "node index"
   },
   "keywords": [

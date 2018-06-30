@@ -15,6 +15,8 @@ let crud = document.getElementById('crud');
 let qrcode = document.getElementById('qrcode');
 let qrcodeSmall = document.getElementById('qrcodeSmall');
 let download = document.getElementById('download');
+let sort = document.getElementById('sort');
+let more = document.getElementById('more');
 
 let client = localStorage.getItem('client');
 if (!client) {
@@ -31,6 +33,16 @@ window.onload = function () {
 	autoHook();
 	new QRCode(qrcode, `${requestUrl}?client=${client}`);
 	scanResponse();
+	let params = location.href.match(/(\?|&)sort=(-)?(type|name|mtime|size)&?/);
+	if (params) {
+		let dir = params[2] ? '' : '-';
+		document.querySelector('.sort .active').className = '';
+		let a = document.getElementById(`sort${params[3]}`);
+		a.parentNode.className = 'active';
+		a.href = `?sort=${dir}${params[3]}`;
+	} else {
+		document.getElementById('sortname').className = 'active';
+	}
 };
 upload.onchange = function () {
 	let filename = ' ';
@@ -248,6 +260,7 @@ function autoHook () {
 
 document.body.onclick = hideQrcode;
 function hideQrcode () {
+	sort.style.display = 'none';
 	qrcode.className = 'qrcode';
 	setTimeout(() => {
 		qrcode.style.display = 'none';
@@ -347,5 +360,12 @@ const restart = () => {
 	code = code.replace(/\s*/g, '');
 	if (code) {
 		window.socket.emit('broadcast', { code });
+	}
+};
+
+more.onclick = () => {
+	if (getComputedStyle(sort).display == 'none') {
+		sort.style.display = 'inline-block';
+		event.stopPropagation();
 	}
 };

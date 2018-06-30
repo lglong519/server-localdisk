@@ -39,6 +39,13 @@
 					</div>
 			</div>
 		</form>
+		<img src='/more-vertical.svg?static=1' class="create-btn more" id='more'>
+		<ul class='sort' id='sort'>
+			<li><a href="?sort=-type" id='sorttype'>文件/文件夹</a></li>
+			<li class="active"><a href="?sort=-name" id='sortname'>名称</a></li>
+			<li><a href="?sort=mtime" id='sortmtime'>时间</a></li>
+			<li><a href="?sort=size" id='sortsize'>大小</a></li>
+		</ul>
 		<div class="crumbs border-bottom">
 			<% if (crumbs.length>1){%>
 				<a class="directory" href="<%=crumbs[crumbs.length-2][1]%>">

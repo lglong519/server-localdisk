@@ -52,6 +52,7 @@ const index = (req, res) => {
 				if (stats.isDirectory()) {
 					outputItem.target = '_self';
 					let info = getFolderSize(path);
+					outputItem.originSize = info.size;
 					outputItem.size = filesize(info.size);
 					outputItem.files = info.files;
 					foldersArr.push(outputItem);
@@ -76,20 +77,38 @@ const index = (req, res) => {
 
 		foldersArr.sort(filter(params.sort));
 		filesArr.sort(filter(params.sort));
-		outputFiles = [].concat(foldersArr, filesArr);
+		outputFiles = [foldersArr, filesArr];
+		if (params.sort == '-type') {
+			outputFiles = [].concat(...outputFiles.reverse());
+		} else {
+			outputFiles = [].concat(...outputFiles);
+		}
 
 		res.render('upload', { list: outputFiles, crumbs, ioUrl });
 	});
 };
 
-function filter (condition = 'default') {
+function filter (condition = 'name') {
+	let direction = 1;
+	if (condition.startsWith('-')) {
+		direction = -1;
+		condition = condition.slice(1);
+	}
 	switch (condition) {
 		case 'size':
-			return (a, b) => a.originSize > b.originSize;
-		case 'target':
-			console.log('target');
-			return;
-		default: return (a, b) => a.name.toLowerCase() > b.name.toLowerCase();
+			return (a, b) => direction * compare(a.originSize, b.originSize);
+		case 'mtime':
+			return (a, b) => direction * compare(a.mtime, b.mtime);
+		default: return (a, b) => direction * compare(a.name.toLowerCase(), b.name.toLowerCase());
 	}
+}
+function compare (a, b) {
+	if (a == b) {
+		return 0;
+	}
+	if (!isNaN(a - b)) {
+		return a - b;
+	}
+	return a > b ? 1 : -1;
 }
 module.exports = index;
