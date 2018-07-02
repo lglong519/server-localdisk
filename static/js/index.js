@@ -369,3 +369,14 @@ more.onclick = () => {
 		event.stopPropagation();
 	}
 };
+
+document.ondragover = function (e) {
+	e.preventDefault();
+	return false;
+};
+
+document.ondrop = function (e) {
+	upload.files = e.dataTransfer.files;
+	e.preventDefault();
+	return false;
+};
