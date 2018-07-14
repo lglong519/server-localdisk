@@ -5,6 +5,7 @@ const info = require('./common/info');
 const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 const deleteAllInPath = require('./common/deleteAllInPath');
 const Middlewares = require('./common/Middlewares');
+const cors = require('cors');
 
 // 引入expr模块
 const express = require('express');
@@ -13,7 +14,11 @@ let server = require('http').Server(expr);
 let io = require('socket.io')(server);
 require('./service/Broadcast')(io);
 nconf.env().file('.config');
-nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT']);
+nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT', '_TMP', 'CORS']);
+
+if (!(/localhost|development|production/).test(nconf.get('MODE'))) {
+	throw Error(`Invalid mode: ${nconf.get('MODE')}`);
+}
 
 expr.use(bodyParser.json());
 expr.use(bodyParser.urlencoded({ extended: true }));
@@ -42,6 +47,18 @@ expr.set('io', io);
 
 expr.use(Middlewares.urlFilter);
 
+// CORS
+const corsOptionsDelegate = function (req, callback) {
+	let corsOptions;
+	if (nconf.get('CORS').indexOf(req.header('Origin')) !== -1) {
+		corsOptions = { origin: true };
+	} else {
+		corsOptions = { origin: false };
+	}
+	callback(null, corsOptions);
+};
+expr.use(cors(corsOptionsDelegate));
+
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();
 expr.use('', express.static(staticDir, {
@@ -51,5 +68,4 @@ expr.use('', express.static(staticDir, {
 require('./routes')(expr);
 
 // 监听端口
-listenWithoutOccupied(expr, nconf.get('PORT'), 'Server');
-listenWithoutOccupied(io, nconf.get('PORT'), 'Socket');
+listenWithoutOccupied(server, nconf.get('PORT'), expr);

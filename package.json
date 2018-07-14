@@ -1,11 +1,12 @@
 {
   "name": "server-localdisk",
-  "version": "3.0.7",
+  "version": "3.1.0",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
     "test": "supervisor -i './static' --no-restart-on error index",
-    "dev": "node index"
+    "dev": "node index",
+    "start": "node ./index"
   },
   "keywords": [
     "localdisk"
@@ -20,6 +21,7 @@
     "archiver": "^2.1.1",
     "bcrypt-nodejs": "0.0.3",
     "color-print": "^1.0.2",
+    "cors": "^2.8.4",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "filesize": "^3.6.1",

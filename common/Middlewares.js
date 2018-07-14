@@ -10,7 +10,11 @@ const urlFilter = (req, res, next) => {
 
 	let curl = decodeURI(req.url);
 	if (!server && !(/\/js(.*)?\.map/).test(curl)) {
-		info(cprint.toDarkGray(req.ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), curl);
+		let ip = req.headers['x-client-ip'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
+		req.locals = {
+			ip
+		};
+		info(cprint.toDarkGray(ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), curl);
 	}
 	if (client) {
 		req.app.get('io').emit(client, { status: 'success' });
@@ -51,16 +55,6 @@ const initUrl = (req, res, next) => {
 	next();
 };
 
-function initCors (req, res, next) {
-	res.header('Access-Control-Allow-Origin', req.app.get('requestUrl'));
-	res.header('Access-Control-Allow-Origin', `http://localhost:${req.app.get('requestUrl').split(':').pop()}`);
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	res.header('Access-Control-Allow-Headers', 'Content-Type');
-	res.header('Access-Control-Allow-Credentials', 'true');
-	next();
-}
-
 module.exports.urlFilter = urlFilter;
 module.exports.redirect = redirect;
 module.exports.initUrl = initUrl;
-module.exports.initCors = initCors;

@@ -8,8 +8,8 @@ module.exports = (message, req = {}, file = '') => {
 	if (typeof req === 'string' && !file) {
 		[file, req] = [req, {}];
 	}
-	if (req.ip) {
-		ip = `[${req.ip}] `;
+	if (req.locals && req.locals.ip) {
+		ip = `[${req.locals.ip}] `;
 	}
 	fs.appendFile(`./${file}.log`, ip + output.replace(/\\x1B\[\d+m|\[(\d+;)?\d+m/ig, ''), err => {
 		if (err) {

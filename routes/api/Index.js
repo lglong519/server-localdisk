@@ -73,7 +73,6 @@ const index = (req, res) => {
 				baseUrl += `/${item}`
 			]);
 		});
-		let ioUrl = req.app.get('io').ioUrl;
 
 		foldersArr.sort(filter(params.sort));
 		filesArr.sort(filter(params.sort));
@@ -84,7 +83,7 @@ const index = (req, res) => {
 			outputFiles = [].concat(...outputFiles);
 		}
 
-		res.render('upload', { list: outputFiles, crumbs, ioUrl });
+		res.render('index', { list: outputFiles, crumbs });
 	});
 };
 

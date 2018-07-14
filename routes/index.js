@@ -6,7 +6,6 @@ const routes = {
 const expr = expr => {
 	expr.use(Middlewares.redirect);
 	expr.use(Middlewares.initUrl);
-	expr.use(Middlewares.initCors);
 	expr.get('/*', routes.api.Index);
 	/* 图片上传 */
 	expr.post('/upload', routes.api.Upload);
