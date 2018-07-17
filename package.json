@@ -1,12 +1,15 @@
 {
   "name": "server-localdisk",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
     "test": "supervisor -i './static' --no-restart-on error index",
     "dev": "node index",
-    "start": "node ./index"
+    "start": "node ./index",
+    "deploy": "gulp deploy",
+    "config": "gulp sftp-write",
+    "logs": "gulp sftp-read-logs"
   },
   "keywords": [
     "localdisk"
@@ -26,6 +29,8 @@
     "express": "^4.16.2",
     "filesize": "^3.6.1",
     "formidable": "^1.1.1",
+    "gulp": "^3.9.1",
+    "gulp-ssh": "^0.7.0",
     "joi": "^13.4.0",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",
