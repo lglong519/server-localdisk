@@ -1,6 +1,6 @@
 {
   "name": "server-localdisk",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,7 @@
     "moment": "^2.22.2",
     "nconf": "^0.10.0",
     "require-dir": "^1.0.0",
+    "sharp": "^0.20.5",
     "socket.io": "^2.1.1"
   },
   "devDependencies": {

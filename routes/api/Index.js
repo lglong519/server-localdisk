@@ -4,6 +4,7 @@ const moment = require('moment');
 const nconf = require('nconf');
 const Joi = require('joi');
 const getFolderSize = require('../../common/getFolderSize');
+const sharp = require('../../common/sharp');
 
 /**
  * @type get
@@ -25,11 +26,12 @@ const index = (req, res) => {
 	}
 	const params = result.value;
 
-	fs.readdir(req.practicalDir, (err, files) => {
+	fs.readdir(req.practicalDir, async (err, files) => {
 		let outputFiles = [];
 		let filesArr = [];
 		let foldersArr = [];
 		let relativeDir = req.practicalDir.replace(nconf.get('UPLOAD_DIR').slice(0, -1), '').replace('//', '/');
+		let promises = [];
 		if (files) {
 			for (let i = files.length - 1; i >= 0; i--) {
 				if (files[i].indexOf('.gitKeep') > -1) {
@@ -60,6 +62,14 @@ const index = (req, res) => {
 				}
 				if (stats.isFile()) {
 					outputItem.link = nconf.get('SOURCE') + outputItem.link;
+					if ((/\.(jpg|gif|png|jpeg|ico|svg)$/i).test(outputItem.link)) {
+						outputItem.thumb = outputItem.link;
+						if (outputItem.originSize > 800000) {
+							let name = outputItem.link.replace(/\/|\./g, '-');
+							promises.push(sharp(`${nconf.get('SOURCE')}${relativeDir}/${item}`, name));
+							outputItem.thumb = `.tmp/${name}.png`;
+						}
+					}
 				}
 				filesArr.push(outputItem);
 			});
@@ -82,7 +92,7 @@ const index = (req, res) => {
 		} else {
 			outputFiles = [].concat(...outputFiles);
 		}
-
+		await Promise.all(promises);
 		res.render('index', { list: outputFiles, crumbs });
 	});
 };

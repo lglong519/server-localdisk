@@ -4,6 +4,8 @@
 		"ActiveXObject":false,
 		"request":true,
 		"QRCode":true
+	},
+	"rules": {
+		"valid-jsdoc":0
 	}
-	
 }
