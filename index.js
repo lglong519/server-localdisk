@@ -6,6 +6,7 @@ const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 const deleteAllInPath = require('./common/deleteAllInPath');
 const Middlewares = require('./common/Middlewares');
 const cors = require('cors');
+const session = require('express-session');
 
 // 引入expr模块
 const express = require('express');
@@ -22,6 +23,18 @@ if (!(/localhost|development|production/).test(nconf.get('MODE'))) {
 
 expr.use(bodyParser.json());
 expr.use(bodyParser.urlencoded({ extended: true }));
+
+nconf.required(['EXP_SECRET', 'AUTHENTICATION', 'SESSION_EXPIRED']);
+expr.use(session({
+	secret: nconf.get('EXP_SECRET'),
+	name: nconf.get('AUTHENTICATION'),
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		maxAge: nconf.get('SESSION_EXPIRED')
+	},
+	rolling: true
+}));
 
 let UPLOAD_DIR = nconf.get('UPLOAD_DIR');
 // 判断默认的共享目录是否存在

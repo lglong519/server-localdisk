@@ -17,6 +17,7 @@ let qrcodeSmall = document.getElementById('qrcodeSmall');
 let download = document.getElementById('download');
 let sort = document.getElementById('sort');
 let more = document.getElementById('more');
+let resStatus = -1;
 
 let client = localStorage.getItem('client');
 if (!client) {
@@ -216,6 +217,9 @@ deleteFile.onclick = function () {
 			success (res) {
 				processResult(res, '删除成功');
 			},
+			complete (status) {
+				resStatus = status;
+			}
 		});
 	}
 };
@@ -280,6 +284,27 @@ qrcodeSmall.onclick = function () {
 
 toast.onclick = function () {
 	this.className = 'toast';
+	if (resStatus == 401) {
+		resStatus = -1;
+		let password = (prompt('密码', 'password') || '').replace(/\s/g, '');
+		if (password) {
+			request({
+				type: 'POST',
+				url: `${requestUrl}/session`,
+				async: true,
+				cache: false,
+				data: {
+					password
+				},
+				dataType: 'json',
+				success (res) {
+					processResult(res, '登录成功');
+				},
+			});
+		} else {
+			alert('密码无效');
+		}
+	}
 };
 
 function processResult (res, message = '创建成功') {
@@ -290,7 +315,7 @@ function processResult (res, message = '创建成功') {
 			location.reload();
 		}, 1000);
 	} else {
-		toast.innerHTML = JSON.stringify(res);
+		toast.innerHTML = `操作失败：${JSON.stringify(res)}`;
 		console.error(res);
 	}
 	setTimeout(() => {

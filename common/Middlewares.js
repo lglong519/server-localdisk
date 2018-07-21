@@ -1,6 +1,7 @@
 const nconf = require('nconf');
 const info = require('./info');
 const cprint = require('color-print');
+const bcrypt = require('bcrypt-nodejs');
 
 const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico') {
@@ -55,6 +56,17 @@ const initUrl = (req, res, next) => {
 	next();
 };
 
+const authorize = (req, res, next) => {
+	if (req.session.password && bcrypt.compareSync(nconf.get('PASSWORD'), req.session.password)) {
+		return next();
+	}
+	res.status(401).json({
+		code: 'UNAUTHORIZED'
+	});
+
+};
+
 module.exports.urlFilter = urlFilter;
 module.exports.redirect = redirect;
 module.exports.initUrl = initUrl;
+module.exports.authorize = authorize;

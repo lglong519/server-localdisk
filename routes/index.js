@@ -7,14 +7,14 @@ const expr = expr => {
 	expr.use(Middlewares.redirect);
 	expr.use(Middlewares.initUrl);
 	expr.get('/*', routes.api.Index);
-	/* 图片上传 */
 	expr.post('/upload', routes.api.Upload);
 	expr.post('/file/new-folder', routes.api.File.newFolder);
 	expr.post('/file/new-file', routes.api.File.newFile);
 	expr.put('/file/append', routes.api.File.append);
-	expr.delete('/file/delete', routes.api.File.remove);
+	expr.delete('/file/delete', Middlewares.authorize, routes.api.File.remove);
 	expr.patch('/file/rename', routes.api.File.rename);
 	expr.post('/folder/download', routes.api.Folder.download);
+	expr.post('/session', routes.api.session.create);
 };
 
 module.exports = expr;
