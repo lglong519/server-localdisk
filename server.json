@@ -1,0 +1,8 @@
+{
+	"apps": [
+		{
+			"name": "netdisk",
+			"script": "./index.js"
+		}
+	]
+}

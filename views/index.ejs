@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title><%=title%></title>
 	<link rel="icon" href="/server-folder.png?static=1">
-	<link rel="stylesheet" href="/css/style.css?static=1">
+	<link rel="stylesheet" href="/css/style.min.css?static=1">
 	<script>
 		var _hmt = _hmt || [];
 		(function() {
@@ -29,7 +29,7 @@
 					<div class="flex-row align-center justify-between flex">
 						<div class="upload">
 							<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
-							<span class="c-y">选择文件</span>
+							<span>选择文件</span>
 						</div>
 						<div>
 							<input type="submit" value="上传" class="upload-btn disabled" id='confirm'>
@@ -132,13 +132,27 @@
 			<img src="/server-check.svg?static=1" alt="">
 		</div>
 	</div>
+	<div class="load-effect" id="loadEffect">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
 	<script src="/js/socket.io.js?static=1"></script>
 	<script src="/js/qrcode.js?static=1"></script>
-	<script src="/js/request.js?static=1"></script>
+	<script src="/js/request.min.js?static=1"></script>
 	<script>
 		window.socket = io.connect('<%=ioUrl%>');
+		socket.on('disconnect',function(){
+			console.error('socket disconnect');
+			socket.disconnect()
+		});
 </script>
-	<script src="/js/index.js?static=1"></script>
+	<script src="/js/index.min.js?static=1"></script>
 </body>
 
 </html>

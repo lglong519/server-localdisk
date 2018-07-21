@@ -7,6 +7,7 @@ const deleteAllInPath = require('./common/deleteAllInPath');
 const Middlewares = require('./common/Middlewares');
 const cors = require('cors');
 const session = require('express-session');
+const ejs = require('ejs');
 
 // 引入expr模块
 const express = require('express');
@@ -54,7 +55,8 @@ if (fs.existsSync(nconf.get('_TMP'))) {
 fs.mkdirSync(nconf.get('_TMP'));
 
 // 配置ejs模板引擎
-expr.set('view engine', 'ejs');
+expr.engine('html', ejs.__express);
+expr.set('view engine', 'html');
 // bind io to express
 expr.set('io', io);
 

@@ -61,3 +61,6 @@ typings/
 .config*
 static/.tmp*
 static/tmp/*
+*.html
+*.min.js
+*.min.css

@@ -17,6 +17,7 @@ let qrcodeSmall = document.getElementById('qrcodeSmall');
 let download = document.getElementById('download');
 let sort = document.getElementById('sort');
 let more = document.getElementById('more');
+let loadEffect = document.getElementById('loadEffect');
 let resStatus = -1;
 
 let client = localStorage.getItem('client');
@@ -66,6 +67,7 @@ reset.onclick = function () {
 confirmBtn.onclick = function () {
 	disable(this);
 	if (upload.files.length) {
+		loadEffect.className += ' loading';
 		upform.submit();
 		// disable(upload, reset);
 	}
