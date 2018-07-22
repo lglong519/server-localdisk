@@ -33,7 +33,14 @@ window.onload = function () {
 		disable(confirmBtn, reset);
 	}
 	autoHook();
-	new QRCode(qrcode, `${requestUrl}?client=${client}`);
+	new QRCode(qrcode, {
+		text: `${requestUrl}?client=${client}`,
+		width: 220,
+		height: 220,
+		colorDark: '#272F45',
+		colorLight: '#ffffff',
+		correctLevel: QRCode.CorrectLevel.L
+	});
 	scanResponse();
 	let params = location.href.match(/(\?|&)sort=(-)?(type|name|mtime|size)&?/);
 	if (params) {

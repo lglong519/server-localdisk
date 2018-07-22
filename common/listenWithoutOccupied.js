@@ -22,7 +22,7 @@ const listenWithoutOccupied = (app, port, expr) => {
 
 		}
 		expr.set('requestUrl', expr.locals.requestUrl);
-		message = `Server listenning on: ${cprint.toYellow(URL)}, Mode: ${nconf.get('MODE')}, uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
+		message = `Server listenning on: ${cprint.toYellow(URL)}, Mode: ${cprint.toRed(nconf.get('MODE'))}, uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
 		app.listen(port, () => {
 			log(message, 'server');
 		});

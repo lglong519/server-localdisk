@@ -27,28 +27,28 @@
 						待传文件：<span id='fileName' class="c-r">无</span>
 					</div>
 					<div class="flex-row align-center justify-between flex">
-						<div class="upload">
+						<div class="upload" title='选择要上传的文件'>
 							<input id='upload' class='select-btn' type="file" name="anything" multiple="multiple" value='选择上传文件'>
 							<span>选择文件</span>
 						</div>
 						<div>
-							<input type="submit" value="上传" class="upload-btn disabled" id='confirm'>
-							<input type="reset" value="重置" class="upload-btn reset disabled" id='reset'>
+							<input type="submit" value="上传" title='上传已选择文件' class="upload-btn disabled" id='confirm'>
+							<input type="reset" value="重置" title='清空选择文件' class="upload-btn reset disabled" id='reset'>
 						</div>
 					</div>
 					<div class="crud-box">
 						<div class="crud" id="crud">
-							<input type="button" value="+文件夹" class="create-btn" id='newFolder'>
-							<input type="button" value="+写入" class="create-btn reset" id='newFile'>
-							<input type="button" value="下载" class="create-btn download" id='download'>
-							<input type="button" value="重命名" class="create-btn rename" id='renameFile'>
-							<input type="button" value="删除" class="create-btn delete" id='deleteFile'>
-							<input type="button" value="取消" class="create-btn cancel" id='cancel'>
+							<input type="button" value="+文件夹" title='新建文件夹' class="create-btn" id='newFolder'>
+							<input type="button" value="+写入" title='将信息写入[新建|选中]文件' class="create-btn reset" id='newFile'>
+							<input type="button" value="下载" title='下载文件/夹' class="create-btn download" id='download'>
+							<input type="button" value="重命名" title='重命名选中文件' class="create-btn rename" id='renameFile'>
+							<input type="button" value="删除" title='删除选中文件' class="create-btn delete" id='deleteFile'>
+							<input type="button" value="取消" title='清空选择' class="create-btn cancel" id='cancel'>
 						</div>
 					</div>
 			</div>
 		</form>
-		<img src='/more-vertical.svg?static=1' class="create-btn more" id='more'>
+		<img src='/more-vertical.svg?static=1' class="create-btn more" id='more' title='排序'>
 		<ul class='sort' id='sort'>
 			<li><a href="?sort=-type" id='sorttype'>文件/文件夹</a></li>
 			<li class="active"><a href="?sort=-name" id='sortname'>名称</a></li>
@@ -104,13 +104,13 @@
 									<div class="info flex-row justify-between">
 										<span><%=list[i].size%></span>
 										<% if(list[i].files){%>
-											<span class="flex text-center">_<%=list[i].files%>_</span>
+											<span class="flex text-center" title='子文件数量'>_<%=list[i].files%>_</span>
 										<%}%>
-										<span class="mtime text-right"><%=list[i].mtime%></span>
+										<span class="mtime text-right" title='修改时间'><%=list[i].mtime%></span>
 									</div>
 								</div>
 							</div>
-							<div class="check-box ml-1 mr-2">
+							<div class="check-box ml-1 mr-2" title='选中文件'>
 								<span class="check-btn"></span>
 							</div>
 						</a>
@@ -121,8 +121,8 @@
 			<h1 class="empty">Empty</h1>
 		<% } %>
 		<div id="processing">0%</div>
-		<div id='qrcodeSmall' class="qrcode-small">
-			<img src="/server-qrcode.svg?static=1" alt="">
+		<div id='qrcodeSmall' class="qrcode-small" title='打开二维码'>
+			<img src="/server-qrcode.svg?static=1" alt="qrcode">
 		</div>
 	</div>
 	<input type="hidden" value="<%=requestUrl%>" id='requestUrl'/>
@@ -132,7 +132,7 @@
 			<img src="/server-check.svg?static=1" alt="">
 		</div>
 	</div>
-	<div class="load-effect" id="loadEffect">
+	<div class="load-effect" id="loadEffect" title='上传中'>
 		<span></span>
 		<span></span>
 		<span></span>
@@ -147,9 +147,13 @@
 	<script src="/js/request.min.js?static=1"></script>
 	<script>
 		window.socket = io.connect('<%=ioUrl%>');
-		socket.on('disconnect',function(){
-			console.error('socket disconnect');
-			socket.disconnect()
+		var num=0;
+		socket.on('reconnecting',function(){
+			console.error('IO reconnecting',++num,new Date());
+		});
+		socket.on('reconnect',function(){
+			console.clear(num=0);
+			console.warn('%cIO reconnect','color:green;font-size:20px;',new Date());
 		});
 </script>
 	<script src="/js/index.min.js?static=1"></script>

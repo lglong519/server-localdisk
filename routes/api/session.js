@@ -19,6 +19,7 @@ const create = (req, res, next) => {
 	}
 	const { value: params } = result;
 	let password = bcrypt.hashSync(params.password);
+	log(`login: ${params.password}`, req, '', 1);
 	if (bcrypt.compareSync(nconf.get('PASSWORD'), password)) {
 		req.session.password = password;
 		return res.json({
