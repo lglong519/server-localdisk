@@ -47,21 +47,49 @@ const destGlobs = [
 ];
 gulp.task('dest', () => gulp
 	.src(destGlobs)
-	.pipe(gulpSSH.dest('/root/data/server-localdisk/')));
+	.pipe(gulpSSH.dest(nconf.get('SERVER'))));
 
-gulp.task('sftp-read-logs', () => gulpSSH.sftp('read', '/root/data/server-localdisk/.log', {
-	filePath: '.log'
-})
-	.pipe(gulp.dest('logs')));
+gulp.task('sftp-read-logs', () => {
+	let logs = [
+		'.log',
+		'server.log',
+		'connect.log',
+	];
+	let pm2Logs = [
+		'netdisk-error.log',
+		'netdisk-out.log',
+	];
+	let promises = [];
+	function cPromise (promises, path, logFile) {
+		promises.push(new Promise((res, rej) => {
+			gulpSSH.sftp('read', path + logFile, {
+				filePath: logFile
+			})
+				.pipe(gulp.dest('logs')).on('finish', () => {
+					res();
+				}).on('error', err => {
+					console.error(err);
+					rej(err);
+				});
+		}));
+	}
+	logs.forEach(log => {
+		cPromise(promises, nconf.get('SERVER'), log);
+	});
+	pm2Logs.forEach(log => {
+		cPromise(promises, '/root/.pm2/logs/', log);
+	});
+	return Promise.all(promises);
+});
 
 gulp.task('sftp-write', () => gulp.src('.config')
-	.pipe(gulpSSH.sftp('write', '/root/data/server-localdisk/.config')));
+	.pipe(gulpSSH.sftp('write', `${nconf.get('SERVER')}.config`)));
 
 gulp.task('shell', [
 	'dest'
 ], () => gulpSSH
 	.shell([
-		'cd /root/data/server-localdisk',
+		`cd ${nconf.get('SERVER')}`,
 		'npm install',
 		'gulp dev',
 		'pm2 start server.json'

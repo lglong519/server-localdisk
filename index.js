@@ -8,6 +8,7 @@ const Middlewares = require('./common/Middlewares');
 const cors = require('cors');
 const session = require('express-session');
 const ejs = require('ejs');
+const moment = require('moment');
 
 // 引入expr模块
 const express = require('express');
@@ -59,6 +60,7 @@ expr.engine('html', ejs.__express);
 expr.set('view engine', 'html');
 // bind io to express
 expr.set('io', io);
+expr.set('today', moment().format('YYYY-MM-DD'));
 
 expr.use(Middlewares.urlFilter);
 

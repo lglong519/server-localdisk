@@ -5,6 +5,7 @@ const nconf = require('nconf');
 const Joi = require('joi');
 const getFolderSize = require('../../common/getFolderSize');
 const sharp = require('../../common/sharp');
+const log = require('../../common/log');
 
 /**
  * @type get
@@ -18,14 +19,17 @@ const index = (req, res) => {
 	}
 	const schema = Joi.object().keys({
 		sort: Joi.string(),
-		client: Joi.string()
+		client: Joi.string(),
+		nsukey: Joi.string(),
 	});
 	const result = Joi.validate(req.query, schema);
 	if (result.error) {
 		return res.send(result.error);
 	}
 	const params = result.value;
-
+	if (params.nsukey) {
+		log(`nsukey: ${params.nsukey},client: ${params.client}`, req);
+	}
 	fs.readdir(req.practicalDir, async (err, files) => {
 		let outputFiles = [];
 		let filesArr = [];

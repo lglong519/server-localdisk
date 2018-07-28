@@ -1,7 +1,9 @@
 const nconf = require('nconf');
 const info = require('./info');
+const log = require('./log');
 const cprint = require('color-print');
 const bcrypt = require('bcrypt-nodejs');
+const moment = require('moment');
 
 const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico') {
@@ -10,12 +12,23 @@ const urlFilter = (req, res, next) => {
 	let { client, static: server } = req.query;
 
 	let curl = decodeURI(req.url);
+	if (req.app.get('today') !== moment().format('YYYY-MM-DD')) {
+		req.app.set('today', moment().format('YYYY-MM-DD'));
+		info('Today', req.app.get('today'), '\n');
+	}
 	if (!server && !(/\/js(.*)?\.map/).test(curl)) {
 		let ip = req.headers['x-client-ip'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
 		req.locals = {
 			ip
 		};
-		info(cprint.toDarkGray(ip.replace(/[a-z:]/gi, '')), cprint.toGreen(req.method), curl);
+		let msg;
+		if (require('./verified') && require('./verified').indexOf(ip) > -1) {
+			msg = cprint.toCyan(ip.replace(/[a-z:]/gi, ''));
+		} else {
+			msg = cprint.toDarkGray(ip.replace(/[a-z:]/gi, ''));
+		}
+		info(msg, cprint.toGreen(req.method), curl);
+		log(req.headers['user-agent'], req, 'connect', 1);
 	}
 	if (client) {
 		req.app.get('io').emit(client, { status: 'success' });
@@ -43,7 +56,7 @@ const initUrl = (req, res, next) => {
 		}
 		suffix = url.replace('/', '');
 	}
-	if (/POST|DELETE|PATCH|PUT/i.test(req.method)) {
+	if ((/POST|DELETE|PATCH|PUT/i).test(req.method)) {
 		let { referer = '' } = req.headers;
 		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '').replace(/\?.*/, '');
 	}

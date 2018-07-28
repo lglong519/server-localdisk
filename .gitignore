@@ -64,3 +64,4 @@ static/tmp/*
 *.html
 *.min.js
 *.min.css
+verified.json
