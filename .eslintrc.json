@@ -1,5 +1,5 @@
 {
-	"extends": "lglong519/standard",
+	"extends": "teslint/standard",
 	"globals": {
 		"ActiveXObject":false,
 		"request":true,

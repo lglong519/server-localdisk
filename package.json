@@ -40,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.54",
-    "eslint-config-lglong519": "github:lglong519/eslint-config",
+    "eslint-config-teslint": "^3.0.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^8.0.0-beta.2",
