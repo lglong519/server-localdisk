@@ -65,16 +65,19 @@ expr.set('today', moment().format('YYYY-MM-DD'));
 expr.use(Middlewares.urlFilter);
 
 // CORS
-const corsOptionsDelegate = function (req, callback) {
-	let corsOptions;
-	if (nconf.get('CORS').indexOf(req.header('Origin')) !== -1) {
-		corsOptions = { origin: true };
-	} else {
-		corsOptions = { origin: false };
+const corsOptions = {
+	origin (origin, callback) {
+		if (!origin) {
+			return callback(null, true);
+		}
+		if (nconf.get('CORS').indexOf(origin) !== -1) {
+			callback(null, true);
+		} else {
+			callback(new Error(`Not allowed by CORS:${origin}`));
+		}
 	}
-	callback(null, corsOptions);
 };
-expr.use(cors(corsOptionsDelegate));
+expr.use(cors(corsOptions));
 
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();

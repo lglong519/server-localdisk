@@ -3,6 +3,7 @@ const gulp = require('gulp');
 const GulpSSH = require('gulp-ssh');
 const nconf = require('nconf');
 const runSequence = require('run-sequence');
+const replace = require('gulp-replace');
 
 nconf.file('.config');
 nconf.required([
@@ -83,6 +84,7 @@ gulp.task('sftp-read-logs', () => {
 });
 
 gulp.task('sftp-write', () => gulp.src('.config')
+	.pipe(replace('"MODE": "localhost"', '"MODE": "development"'))
 	.pipe(gulpSSH.sftp('write', `${nconf.get('SERVER')}.config`)));
 
 gulp.task('shell', [
