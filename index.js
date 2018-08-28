@@ -5,7 +5,6 @@ const info = require('./common/info');
 const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 const deleteAllInPath = require('./common/deleteAllInPath');
 const Middlewares = require('./common/Middlewares');
-const cors = require('cors');
 const session = require('express-session');
 const ejs = require('ejs');
 const moment = require('moment');
@@ -65,19 +64,7 @@ expr.set('today', moment().format('YYYY-MM-DD'));
 expr.use(Middlewares.urlFilter);
 
 // CORS
-const corsOptions = {
-	origin (origin, callback) {
-		if (!origin) {
-			return callback(null, true);
-		}
-		if (nconf.get('CORS').indexOf(origin) !== -1) {
-			callback(null, true);
-		} else {
-			callback(new Error(`Not allowed by CORS:${origin}`));
-		}
-	}
-};
-expr.use(cors(corsOptions));
+expr.use(Middlewares.cors);
 
 // 静态目录：外部访问地址自动跳转到/public
 let staticDir = UPLOAD_DIR.split('/').splice(1, 1).pop();

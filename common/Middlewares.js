@@ -4,6 +4,7 @@ const log = require('./log');
 const cprint = require('color-print');
 const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
+const Cors = require('cors');
 
 const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico') {
@@ -79,7 +80,22 @@ const authorize = (req, res, next) => {
 
 };
 
+const corsOptions = {
+	origin (origin, callback) {
+		if (!origin) {
+			return callback(null, true);
+		}
+		if (nconf.get('CORS').join().indexOf(origin.replace(/^http(s)?:\/\/(www\.)?/, '')) !== -1) {
+			callback(null, true);
+		} else {
+			callback(new Error(`Not allowed by CORS:${origin}`));
+		}
+	}
+};
+const cors = Cors(corsOptions);
+
 module.exports.urlFilter = urlFilter;
 module.exports.redirect = redirect;
 module.exports.initUrl = initUrl;
 module.exports.authorize = authorize;
+module.exports.cors = cors;
