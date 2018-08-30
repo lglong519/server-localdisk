@@ -12,7 +12,7 @@ const log = require('../../common/log');
  * @description 负责页面内容的准备：显示的文件列表，文件地址，文件是否在当前页面打开
  * @param {String} [sort] default='name'
  */
-const index = (req, res) => {
+const index = (req, res, next) => {
 	if (!fs.existsSync(req.practicalDir)) {
 		res.render('404');
 		return;
@@ -30,7 +30,7 @@ const index = (req, res) => {
 	if (params.nsukey) {
 		log(`nsukey: ${params.nsukey},client: ${params.client}`, req);
 	}
-	fs.readdir(req.practicalDir, async (err, files) => {
+	fs.readdir(req.practicalDir, (err, files) => {
 		let outputFiles = [];
 		let filesArr = [];
 		let foldersArr = [];
@@ -96,8 +96,11 @@ const index = (req, res) => {
 		} else {
 			outputFiles = [].concat(...outputFiles);
 		}
-		await Promise.all(promises);
-		res.render('index', { list: outputFiles, crumbs });
+		Promise.all(promises).then(() => {
+			res.render('index', { list: outputFiles, crumbs, MODE: nconf.get('MODE') });
+		}).catch(err => {
+			next(err);
+		});
 	});
 };
 

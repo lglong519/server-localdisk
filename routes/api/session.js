@@ -27,7 +27,7 @@ const create = (req, res, next) => {
 		});
 	}
 	return res.status(401).json({
-		code: 'success'
+		code: 'failed'
 	});
 };
 module.exports = {

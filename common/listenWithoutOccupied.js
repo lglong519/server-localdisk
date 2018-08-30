@@ -11,10 +11,10 @@ const listenWithoutOccupied = (app, port, expr) => {
 		server.close();
 		const URL = `http://${host}:${port}`;
 		let message;
-		if (nconf.get('MODE') !== 'localhost') {
+		if ((/^(development|production)$/i).test(nconf.get('MODE'))) {
 			expr.locals.requestUrl = nconf.get('DOMAIN');
 			expr.locals.ioUrl = `${expr.locals.requestUrl}:${port}`;
-			expr.locals.title = 'NetDisk';
+			expr.locals.title = require('../server').apps[0].name;
 		} else {
 			expr.locals.requestUrl = URL;
 			expr.locals.ioUrl = URL;

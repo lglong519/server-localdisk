@@ -15,7 +15,7 @@ const expr = express();
 let server = require('http').Server(expr);
 let io = require('socket.io')(server);
 require('./service/Broadcast')(io);
-nconf.env().file('.config');
+nconf.file('.config').env();
 nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT', '_TMP', 'CORS']);
 
 if (!(/localhost|development|production/).test(nconf.get('MODE'))) {

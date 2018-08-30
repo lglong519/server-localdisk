@@ -10,10 +10,14 @@
 	<script>
 		var _hmt = _hmt || [];
 		(function() {
-		  var hm = document.createElement("script");
-		  hm.src = "https://hm.baidu.com/hm.js?871ede6b358cfa358838b64c93f354e3";
-		  var s = document.getElementsByTagName("script")[0]; 
-		  s.parentNode.insertBefore(hm, s);
+		var hm = document.createElement("script");
+		// <%if(MODE=="development" || MODE=="production"){%>
+			hm.src = "https://hm.baidu.com/hm.js?871ede6b358cfa358838b64c93f354e3";
+		// <%}else{%>
+			hm.src = "https://hm.baidu.com/hm.js?964d84e610a3360adb9be7dbfb32871c";
+		// <%}%>
+		var s = document.getElementsByTagName("script")[0]; 
+		s.parentNode.insertBefore(hm, s);
 		})();
 	</script>
 </head>

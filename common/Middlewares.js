@@ -59,7 +59,22 @@ const initUrl = (req, res, next) => {
 	}
 	if ((/POST|DELETE|PATCH|PUT/i).test(req.method)) {
 		let { referer = '' } = req.headers;
-		suffix = referer.replace(`${req.app.get('requestUrl')}/`, '').replace(/\?.*/, '');
+		nconf.get('CORS').forEach(item => {
+			// 要将 referer 后面的 / 也清除，因为 UPLOAD_DIR 结尾已带 /
+			referer = referer.replace(`${item}/`, '');
+		});
+		suffix = referer.replace(/\?.*/, '');
+	} else {
+		// 根据不同的域名设置请求链接
+		let { host } = req.headers;
+		if (!req.app.locals.requestUrl.includes(host)) {
+			if (nconf.get('CORS').join().indexOf(host) !== -1) {
+				let [, oldHost] = req.app.locals.requestUrl.match(/^http[s]{0,1}:\/\/([^/]*)?/);
+				req.app.locals.requestUrl = req.app.locals.requestUrl.replace(oldHost, host);
+			} else {
+				log('warnning host:', host);
+			}
+		}
 	}
 	// **Untitled Folder/
 	if (suffix) {
@@ -74,6 +89,7 @@ const authorize = (req, res, next) => {
 	if (req.session.password && bcrypt.compareSync(nconf.get('PASSWORD'), req.session.password)) {
 		return next();
 	}
+	log(`authorize failed: ${req.session.password}`, req, '', 1);
 	res.status(401).json({
 		code: 'UNAUTHORIZED'
 	});
@@ -82,7 +98,7 @@ const authorize = (req, res, next) => {
 
 const corsOptions = {
 	origin (origin, callback) {
-		if (!origin) {
+		if (!origin || origin === 'null') {
 			return callback(null, true);
 		}
 		if (nconf.get('CORS').join().indexOf(origin.replace(/^http(s)?:\/\/(www\.)?/, '')) !== -1) {

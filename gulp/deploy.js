@@ -12,6 +12,7 @@ nconf.required([
 	'HOST',
 	'SSH_PORT',
 	'USER_NAME',
+	'SERVER',
 ]);
 
 let privateKey;
