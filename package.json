@@ -1,6 +1,6 @@
 {
   "name": "server-localdisk",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "server-localdisk",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "joi": "^13.4.0",
     "moment": "^2.22.2",
     "nconf": "^0.10.0",
+    "request": "^2.88.0",
     "require-dir": "^1.0.0",
     "sharp": "^0.20.5",
     "socket.io": "^2.1.1"
@@ -41,7 +42,7 @@
     "@babel/core": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.54",
     "eslint-config-teslint": "latest",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-clean-css": "^3.9.4",
@@ -50,7 +51,6 @@
     "gulp-replace": "^1.0.0",
     "gulp-ssh": "^0.7.0",
     "gulp-strip-css-comments": "^2.0.0",
-    "gulp-uglify": "^3.0.0",
-    "run-sequence": "^2.2.1"
+    "gulp-uglify": "^3.0.0"
   }
 }

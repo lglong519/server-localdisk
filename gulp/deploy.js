@@ -2,17 +2,16 @@ const fs = require('fs');
 const gulp = require('gulp');
 const GulpSSH = require('gulp-ssh');
 const nconf = require('nconf');
-const runSequence = require('run-sequence');
 const replace = require('gulp-replace');
 
 nconf.file('.config');
 nconf.required([
+	'SERVER',
+	'SERVER_USERNAME',
+	'SERVER_HOST',
+	'SSH_PORT',
 	'LOCAL_KEY',
 	'PRIVATE_KEY',
-	'HOST',
-	'SSH_PORT',
-	'USER_NAME',
-	'SERVER',
 ]);
 
 let privateKey;
@@ -26,9 +25,9 @@ if (!privateKey) {
 	throw new SyntaxError('Invalid privateKey');
 }
 const config = {
-	host: nconf.get('HOST'),
+	host: nconf.get('SERVER_HOST'),
 	port: nconf.get('SSH_PORT'),
-	username: nconf.get('USER_NAME'),
+	username: nconf.get('SERVER_USERNAME'),
 	privateKey
 };
 
@@ -88,23 +87,24 @@ gulp.task('sftp-write', () => gulp.src('.config')
 	.pipe(replace('"MODE": "localhost"', '"MODE": "development"'))
 	.pipe(gulpSSH.sftp('write', `${nconf.get('SERVER')}.config`)));
 
-gulp.task('shell', [
-	'dest'
-], () => gulpSSH
-	.shell([
-		`cd ${nconf.get('SERVER')}`,
-		'npm install',
-		'gulp dev',
-		'pm2 start server.json'
-	], {
-		filePath: 'shell.log'
-	})
-	.pipe(gulp.dest('logs')));
+gulp.task(
+	'shell',
+	gulp.series(
+		'dest',
+		() => gulpSSH
+			.shell([
+				`cd ${nconf.get('SERVER')}`,
+				'npm install',
+				'gulp dev',
+				'pm2 start server.json'
+			], {
+				filePath: 'shell.log'
+			})
+			.pipe(gulp.dest('logs'))
+	)
+);
 
-gulp.task('deploy', cb => {
-	runSequence(
-		'shell',
-		'sftp-read-logs',
-		cb
-	);
-});
+gulp.task(
+	'deploy',
+	gulp.series('shell', 'sftp-read-logs')
+);

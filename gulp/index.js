@@ -72,15 +72,21 @@ gulp.task('watch', () => {
 	]);
 });
 
-gulp.task('dev', [
-	'Htmlmin',
-	'cssmin',
-	'babel'
-]);
+gulp.task(
+	'dev',
+	gulp.parallel(
+		'Htmlmin',
+		'cssmin',
+		'babel'
+	)
+);
 
-gulp.task('test', [
-	'Htmlmin',
-	'cssmin',
-	'babel',
-	'watch'
-]);
+gulp.task(
+	'test',
+	gulp.parallel(
+		'Htmlmin',
+		'cssmin',
+		'babel',
+		'watch'
+	)
+);

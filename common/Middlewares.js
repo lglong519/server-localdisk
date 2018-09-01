@@ -5,9 +5,10 @@ const cprint = require('color-print');
 const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
 const Cors = require('cors');
+const request = require('request');
 
 const urlFilter = (req, res, next) => {
-	if (req.url == '/favicon.ico') {
+	if (req.url == '/favicon.ico' || req.url == '/main/favicon.ico') {
 		return res.end();
 	}
 	let { client, static: server } = req.query;
@@ -28,8 +29,22 @@ const urlFilter = (req, res, next) => {
 		} else {
 			msg = cprint.toDarkGray(ip.replace(/[a-z:]/gi, ''));
 		}
+		let { 'user-agent': agent, host, referer } = req.headers;
+		request.post(
+			{
+				url: 'http://127.0.0.1:50901/services/accesses',
+				method: 'POST',
+				json: true,
+				body: {
+					ip, action: req.method, resource: curl, client: agent, host, referer
+				},
+			},
+			(err, response, body) => {
+				err && console.error('accesses err:', err);
+			}
+		);
 		info(msg, cprint.toGreen(req.method), curl);
-		log(req.headers['user-agent'], req, 'connect', 1);
+		log(agent, req, 'connect', 1);
 	}
 	if (client) {
 		req.app.get('io').emit(client, { status: 'success' });
@@ -58,21 +73,17 @@ const initUrl = (req, res, next) => {
 		suffix = url.replace('/', '');
 	}
 	if ((/POST|DELETE|PATCH|PUT/i).test(req.method)) {
-		let { referer = '' } = req.headers;
-		nconf.get('CORS').forEach(item => {
-			// 要将 referer 后面的 / 也清除，因为 UPLOAD_DIR 结尾已带 /
-			referer = referer.replace(`${item}/`, '');
-		});
-		suffix = referer.replace(/\?.*/, '');
+		let { referer } = req.headers;
+		suffix = referer.replace(/^http[s]{0,1}:\/\/([^/]*)?\/|\?.*/, '');
 	} else {
 		// 根据不同的域名设置请求链接
-		let { host } = req.headers;
+		let { host, referer } = req.headers;
 		if (!req.app.locals.requestUrl.includes(host)) {
 			if (nconf.get('CORS').join().indexOf(host) !== -1) {
 				let [, oldHost] = req.app.locals.requestUrl.match(/^http[s]{0,1}:\/\/([^/]*)?/);
 				req.app.locals.requestUrl = req.app.locals.requestUrl.replace(oldHost, host);
 			} else {
-				log('warnning host:', host);
+				info('warnning host:', host, referer);
 			}
 		}
 	}
