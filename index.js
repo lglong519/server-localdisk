@@ -2,12 +2,15 @@ const fs = require('fs');
 const nconf = require('nconf');
 const bodyParser = require('body-parser');
 const info = require('./common/info');
-const listenWithoutOccupied = require('./common/listenWithoutOccupied');
 const deleteAllInPath = require('./common/deleteAllInPath');
-const Middlewares = require('./common/Middlewares');
 const session = require('express-session');
 const ejs = require('ejs');
 const moment = require('moment');
+
+nconf.file('.config').env();
+
+const listenWithoutOccupied = require('./common/listenWithoutOccupied');
+const Middlewares = require('./common/Middlewares');
 
 // 引入expr模块
 const express = require('express');
@@ -15,7 +18,6 @@ const expr = express();
 let server = require('http').Server(expr);
 let io = require('socket.io')(server);
 require('./service/Broadcast')(io);
-nconf.file('.config').env();
 nconf.required(['UPLOAD_DIR', 'SOURCE', 'PORT', '_TMP', 'CORS']);
 
 if (!(/localhost|development|production/).test(nconf.get('MODE'))) {

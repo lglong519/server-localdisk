@@ -7,6 +7,14 @@ const moment = require('moment');
 const Cors = require('cors');
 const request = require('request');
 
+nconf.required([
+	'VERIFIED',
+	'SOURCE',
+	'UPLOAD_DIR',
+	'CORS',
+	'PASSWORD'
+]);
+
 const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico' || req.url == '/main/favicon.ico') {
 		return res.end();
@@ -24,7 +32,7 @@ const urlFilter = (req, res, next) => {
 			ip
 		};
 		let msg;
-		if (require('./verified') && require('./verified').indexOf(ip) > -1) {
+		if (nconf.get('VERIFIED').indexOf(ip.split('.').slice(0, -1).join('.')) > -1) {
 			msg = cprint.toCyan(ip.replace(/[a-z:]/gi, ''));
 		} else {
 			msg = cprint.toDarkGray(ip.replace(/[a-z:]/gi, ''));
@@ -32,7 +40,7 @@ const urlFilter = (req, res, next) => {
 		let { 'user-agent': agent, host, referer } = req.headers;
 		request.post(
 			{
-				url: 'http://127.0.0.1:50901/services/accesses',
+				url: 'http://dev.mofunc.com/services/accesses',
 				method: 'POST',
 				json: true,
 				body: {
@@ -73,7 +81,7 @@ const initUrl = (req, res, next) => {
 		suffix = url.replace('/', '');
 	}
 	if ((/POST|DELETE|PATCH|PUT/i).test(req.method)) {
-		let { referer } = req.headers;
+		let { referer = '' } = req.headers;
 		suffix = referer.replace(/^http[s]{0,1}:\/\/([^/]*)?\/|\?.*/, '');
 	} else {
 		// 根据不同的域名设置请求链接

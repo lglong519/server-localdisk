@@ -87,6 +87,13 @@ gulp.task('sftp-write', () => gulp.src('.config')
 	.pipe(replace('"MODE": "localhost"', '"MODE": "development"'))
 	.pipe(gulpSSH.sftp('write', `${nconf.get('SERVER')}.config`)));
 
+gulp.task('start-server', () => gulpSSH.shell([
+	`cd ${nconf.get('SERVER')}`,
+	'pm2 start server.json'
+], {
+	filePath: 'shell.log'
+}).pipe(gulp.dest('logs')));
+
 gulp.task(
 	'shell',
 	gulp.series(
