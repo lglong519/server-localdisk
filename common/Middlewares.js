@@ -19,7 +19,10 @@ const urlFilter = (req, res, next) => {
 	if (req.url == '/favicon.ico' || req.url == '/main/favicon.ico') {
 		return res.end();
 	}
-	let { client, static: server } = req.query;
+	let {
+		client,
+		static: server
+	} = req.query;
 
 	let curl = decodeURI(req.url);
 	if (req.app.get('today') !== moment().format('YYYY-MM-DD')) {
@@ -37,25 +40,41 @@ const urlFilter = (req, res, next) => {
 		} else {
 			msg = cprint.toDarkGray(ip.replace(/[a-z:]/gi, ''));
 		}
-		let { 'user-agent': agent, host, referer } = req.headers;
-		request.post(
-			{
-				url: 'http://dev.mofunc.com/services/accesses',
-				method: 'POST',
-				json: true,
-				body: {
-					ip, action: req.method, resource: curl, client: agent, host, referer
-				},
+		let {
+			'user-agent': agent,
+			host,
+			referer
+		} = req.headers;
+		let url = 'http://127.0.0.1:50901/services/accesses';
+		if ((/development|production/).test(nconf.get('MODE'))) {
+			url = 'http://dev.mofunc.com/services/accesses';
+		}
+		request.post({
+			url,
+			method: 'POST',
+			json: true,
+			body: {
+				ip,
+				action: req.method,
+				resource: curl,
+				client: agent,
+				host,
+				referer,
+				body: req.method == 'GET' ? '' : req.body,
 			},
-			(err, response, body) => {
-				err && console.error('accesses err:', err);
+			headers: {
+				'x-serve': 'service'
 			}
-		);
+		}, (err, response, body) => {
+			err && console.error('accesses err:', err);
+		});
 		info(msg, cprint.toGreen(req.method), curl);
 		log(agent, req, 'connect', 1);
 	}
 	if (client) {
-		req.app.get('io').emit(client, { status: 'success' });
+		req.app.get('io').emit(client, {
+			status: 'success'
+		});
 	}
 	next();
 };
@@ -72,7 +91,9 @@ const redirect = (req, res, next) => {
 };
 const initUrl = (req, res, next) => {
 	let dir = nconf.get('UPLOAD_DIR');
-	let { url } = req;
+	let {
+		url
+	} = req;
 	let suffix = '';
 	if (req.method == 'GET') {
 		if (url.includes('?')) {
@@ -81,11 +102,16 @@ const initUrl = (req, res, next) => {
 		suffix = url.replace('/', '');
 	}
 	if ((/POST|DELETE|PATCH|PUT/i).test(req.method)) {
-		let { referer = '' } = req.headers;
+		let {
+			referer = ''
+		} = req.headers;
 		suffix = referer.replace(/^http[s]{0,1}:\/\/([^/]*)?\/|\?.*/, '');
 	} else {
 		// 根据不同的域名设置请求链接
-		let { host, referer } = req.headers;
+		let {
+			host,
+			referer
+		} = req.headers;
 		if (!req.app.locals.requestUrl.includes(host)) {
 			if (nconf.get('CORS').join().indexOf(host) !== -1) {
 				let [, oldHost] = req.app.locals.requestUrl.match(/^http[s]{0,1}:\/\/([^/]*)?/);
