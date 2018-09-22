@@ -9,19 +9,15 @@ const listenWithoutOccupied = (app, port, expr) => {
 	let server = net.createServer().listen(port);
 	server.on('listening', () => {
 		server.close();
-		const URL = `http://${host}:${port}`;
+		let URL = `http://${host}:${port}`;
 		let message;
 		if ((/^(development|production)$/i).test(nconf.get('MODE'))) {
-			expr.locals.requestUrl = nconf.get('DOMAIN');
-			expr.locals.ioUrl = `${expr.locals.requestUrl}:${port}`;
+			URL = nconf.get('DOMAIN');
 			expr.locals.title = require('../server').apps[0].name;
 		} else {
-			expr.locals.requestUrl = URL;
-			expr.locals.ioUrl = URL;
 			expr.locals.title = 'LocalDisk';
-
 		}
-		expr.set('requestUrl', expr.locals.requestUrl);
+		expr.locals.requestUrl = expr.locals.ioUrl = URL;
 		message = `Server listenning on: ${cprint.toYellow(URL)}, Mode: ${cprint.toRed(nconf.get('MODE'))}, uploadDir: ${nconf.get('UPLOAD_DIR').slice(1)} `;
 		app.listen(port, () => {
 			log(message, 'server');

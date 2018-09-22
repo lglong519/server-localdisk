@@ -42,7 +42,7 @@ const destGlobs = [
 	'!**/logs/**',
 	'!**/gallery/**',
 	'!*.log',
-	'!static/js/?(*.){min,io,qrcode}.js',
+	'!static/js/?(*.){min}.js',
 	'!views/*.html',
 	'!static/css/*.min.css'
 ];

@@ -121,6 +121,9 @@ const initUrl = (req, res, next) => {
 			}
 		}
 	}
+	if (nconf.get('MODE') === 'localhost' && req.app.locals.ioUrl !== req.app.locals.requestUrl) {
+		req.app.locals.ioUrl = req.app.locals.requestUrl;
+	}
 	// **Untitled Folder/
 	if (suffix) {
 		req.practicalDir = decodeURI(`${dir + suffix}`);

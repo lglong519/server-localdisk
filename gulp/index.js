@@ -18,7 +18,7 @@ gulp.task('Htmlmin', () => {
 		minifyJS: true, // 压缩页面JS
 		minifyCSS: true// 压缩页面CSS
 	};
-	gulp.src('views/*.ejs')
+	return gulp.src('views/*.ejs')
 		.pipe(htmlmin(options))
 		.pipe(rename({
 			extname: '.html'
@@ -31,7 +31,7 @@ const cssGlobs = [
 	'!static/css/*.min.css'
 ];
 gulp.task('cssmin', () => {
-	gulp.src(cssGlobs)
+	return gulp.src(cssGlobs)
 		// 去掉注释
 		.pipe(stripCssComments())
 		// auto prefix
