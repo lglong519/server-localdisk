@@ -57,8 +57,8 @@ gulp.task('sftp-read-logs', () => {
 		'connect.log',
 	];
 	let pm2Logs = [
-		'netdisk-error.log',
-		'netdisk-out.log',
+		'yun-error.log',
+		'yun-out.log',
 	];
 	let promises = [];
 	function cPromise (promises, path, logFile) {

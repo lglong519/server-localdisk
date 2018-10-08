@@ -60,17 +60,13 @@ gulp.task('babel', () => gulp.src(jsGlobs)
 	}))
 	.pipe(gulp.dest(file => file.base)));
 
-gulp.task('watch', () => {
-	gulp.watch('views/*.ejs', [
-		'Htmlmin'
-	]);
-	gulp.watch(cssGlobs, [
-		'cssmin'
-	]);
-	gulp.watch(jsGlobs, [
-		'babel'
-	]);
-});
+function watchAll () {
+	gulp.watch('views/*.ejs', gulp.series('Htmlmin'));
+	gulp.watch(cssGlobs, gulp.series('cssmin'));
+	gulp.watch(jsGlobs, gulp.series('babel'));
+}
+
+gulp.task('watch', gulp.parallel(watchAll));
 
 gulp.task(
 	'dev',
