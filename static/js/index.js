@@ -292,7 +292,12 @@ qrcodeSmall.onclick = function () {
 };
 
 toast.onclick = function () {
-	this.className = 'toast';
+	if ((/show-toast/).test(this.className)) {
+		this.className = 'toast hide-toast';
+		setTimeout(() => {
+			this.className = 'toast';
+		}, 500);
+	}
 	if (resStatus == 401) {
 		resStatus = -1;
 		let password = (prompt('密码', 'password') || '').replace(/\s/g, '');
@@ -317,7 +322,6 @@ toast.onclick = function () {
 };
 
 function processResult (res, message = '创建成功') {
-	toast.style.display = 'inline-block';
 	if (res.status === 'success') {
 		toast.innerHTML = message;
 		setTimeout(() => {
@@ -327,9 +331,7 @@ function processResult (res, message = '创建成功') {
 		toast.innerHTML = `操作失败：${JSON.stringify(res)}`;
 		console.error(res);
 	}
-	setTimeout(() => {
-		toast.className += ' show';
-	}, 100);
+	toast.className += ' show-toast';
 }
 
 download.onclick = function () {
