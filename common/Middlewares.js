@@ -115,14 +115,11 @@ const initUrl = (req, res, next) => {
 		if (!req.app.locals.requestUrl.includes(host)) {
 			if (nconf.get('CORS').join().indexOf(host) !== -1) {
 				let [, oldHost] = req.app.locals.requestUrl.match(/^http[s]{0,1}:\/\/([^/]*)?/);
-				req.app.locals.requestUrl = req.app.locals.requestUrl.replace(oldHost, host);
+				req.app.locals.ioUrl = req.app.locals.requestUrl = req.app.locals.requestUrl.replace(oldHost, host);
 			} else {
 				info('warnning host:', host, referer);
 			}
 		}
-	}
-	if (nconf.get('MODE') === 'localhost' && req.app.locals.ioUrl !== req.app.locals.requestUrl) {
-		req.app.locals.ioUrl = req.app.locals.requestUrl;
 	}
 	// **Untitled Folder/
 	if (suffix) {
