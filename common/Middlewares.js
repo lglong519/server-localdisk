@@ -21,7 +21,7 @@ const urlFilter = (req, res, next) => {
 	}
 	let {
 		client,
-		static: server
+		lglong519: server
 	} = req.query;
 
 	let curl = decodeURI(req.url);
@@ -105,7 +105,7 @@ const initUrl = (req, res, next) => {
 		let {
 			referer = ''
 		} = req.headers;
-		suffix = referer.replace(/^http[s]{0,1}:\/\/([^/]*)?\/|\?.*/, '');
+		suffix = referer.replace(/^http[s]{0,1}:\/\/([^/]*)?\/|\?.*/g, '');
 	} else {
 		// 根据不同的域名设置请求链接
 		let {
