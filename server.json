@@ -2,7 +2,8 @@
 	"apps": [
 		{
 			"name": "yun",
-			"script": "./index.js"
+			"script": "./index.js",
+			"max_restarts": 30
 		}
 	]
 }

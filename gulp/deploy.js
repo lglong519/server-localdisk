@@ -112,6 +112,26 @@ gulp.task(
 );
 
 gulp.task(
+	'shell.slim',
+	gulp.series(
+		'dest',
+		() => gulpSSH
+			.shell([
+				`cd ${nconf.get('SERVER')}`,
+				'gulp dev',
+				'pm2 start server.json'
+			], {
+				filePath: 'shell.log'
+			})
+			.pipe(gulp.dest('logs'))
+	)
+);
+
+gulp.task(
 	'deploy',
 	gulp.series('shell', 'sftp-read-logs')
+);
+gulp.task(
+	'deploy:sl',
+	gulp.series('shell.slim')
 );

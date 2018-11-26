@@ -7,7 +7,8 @@
     "test": "supervisor -i './static' --no-restart-on error index",
     "dev": "node index",
     "start": "node ./index",
-    "deploy": "gulp deploy",
+	"deploy": "gulp deploy",
+	"deploy:sl": "gulp deploy:sl",
     "config": "gulp sftp-write",
     "logs": "gulp sftp-read-logs"
   },

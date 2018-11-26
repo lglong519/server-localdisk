@@ -11,7 +11,7 @@ const upload = (req, res) => {
 	form.encoding = 'utf-8'; // 设置编辑
 	form.uploadDir = `${req.practicalDir}/`; // 设置上传目录
 	form.keepExtensions = true; // 保留后缀
-	form.maxFileSize = 2 * 1024 * 1024 * 1024; // 文件大小
+	form.maxFileSize = 2 * 1024 * 1024 * 1024; // 文件大小 2g
 	// 文件接收完成
 	form.on('file', (filed, file) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));

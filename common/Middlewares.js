@@ -42,32 +42,7 @@ const urlFilter = (req, res, next) => {
 		}
 		let {
 			'user-agent': agent,
-			host,
-			referer
 		} = req.headers;
-		let url = 'http://127.0.0.1:50901/services/accesses';
-		if ((/development|production/).test(nconf.get('MODE'))) {
-			url = 'http://dev.mofunc.com/services/accesses';
-		}
-		request.post({
-			url,
-			method: 'POST',
-			json: true,
-			body: {
-				ip,
-				action: req.method,
-				resource: curl,
-				client: agent,
-				host,
-				referer,
-				body: req.method == 'GET' ? '' : req.body,
-			},
-			headers: {
-				'x-serve': 'service'
-			}
-		}, (err, response, body) => {
-			err && console.error('accesses err:', err);
-		});
 		info(msg, cprint.toGreen(req.method), curl);
 		log(agent, req, 'connect', 1);
 	}
