@@ -5,7 +5,7 @@ const cprint = require('color-print');
 const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
 const Cors = require('cors');
-const request = require('request');
+const onFinished = require('on-finished');
 
 nconf.required([
 	'VERIFIED',
@@ -43,7 +43,12 @@ const urlFilter = (req, res, next) => {
 		let {
 			'user-agent': agent,
 		} = req.headers;
-		info(msg, cprint.toGreen(req.method), curl);
+		onFinished(res, (err, res) => {
+			if (err) {
+				return console.log(err);
+			}
+			info(msg, cprint.toGreen(req.method), res.statusCode, curl);
+		});
 		log(agent, req, 'connect', 1);
 	}
 	if (client) {

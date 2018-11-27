@@ -33,8 +33,14 @@ window.onload = function () {
 		disable(confirmBtn, reset);
 	}
 	autoHook();
+	let shareUrl = location.href;
+	if (shareUrl.includes('?')) {
+		shareUrl = shareUrl.replace(/\?(client=(\d*)&?)?/i, `?client=${client}&`);
+	} else {
+		shareUrl += `?client=${client}`;
+	}
 	new QRCode(qrcode, {
-		text: `${requestUrl}?client=${client}`,
+		text: shareUrl,
 		width: 220,
 		height: 220,
 		colorDark: '#272F45',

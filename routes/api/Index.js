@@ -14,6 +14,7 @@ const log = require('../../common/log');
  */
 const index = (req, res, next) => {
 	if (!fs.existsSync(req.practicalDir)) {
+		res.status(404);
 		res.render('404');
 		return;
 	}
