@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt-nodejs');
 const moment = require('moment');
 const Cors = require('cors');
 const onFinished = require('on-finished');
+const getStatusColor = require('./getStatusColor');
 
 nconf.required([
 	'VERIFIED',
@@ -30,15 +31,16 @@ const urlFilter = (req, res, next) => {
 		info('Today', req.app.get('today'), '\n');
 	}
 	if (!server && !(/\/js(.*)?\.map/).test(curl)) {
-		let ip = req.headers['x-client-ip'] || req.headers['x-real-ip'] || req.connection.remoteAddress;
+		let ip = req.headers['x-client-ip'] || req.headers['x-real-ip'] || req.connection.remoteAddress || '';
+		ip && (ip = ip.replace(/[a-z:]/gi, ''));
 		req.locals = {
 			ip
 		};
 		let msg;
-		if (nconf.get('VERIFIED').indexOf(ip.split('.').slice(0, -1).join('.')) > -1) {
-			msg = cprint.toCyan(ip.replace(/[a-z:]/gi, ''));
+		if (nconf.get('VERIFIED').includes(ip.split('.').slice(0, -1).join('.'))) {
+			msg = cprint.toCyan(ip);
 		} else {
-			msg = cprint.toDarkGray(ip.replace(/[a-z:]/gi, ''));
+			msg = cprint.toDarkGray(ip);
 		}
 		let {
 			'user-agent': agent,
@@ -47,7 +49,7 @@ const urlFilter = (req, res, next) => {
 			if (err) {
 				return console.log(err);
 			}
-			info(msg, cprint.toGreen(req.method), res.statusCode, curl);
+			info(msg, cprint.toGreen(req.method), `\x1B[${getStatusColor(res.statusCode)}m${res.statusCode}\x1B[39m`, curl);
 		});
 		log(agent, req, 'connect', 1);
 	}

@@ -351,19 +351,19 @@
 
 	.show-toast {
 	   display: block;
-	   animation: showToast .5s ease-out forwards;
+	   animation: showToast .2s ease-out forwards;
 	}
 
 	@keyframes showToast {
 		0% {
 			transform:translate3d(-50%,-50%,0) scale(.3);
 		}
-		20% {
+		/* 20% {
 			transform:translate3d(-50%,-50%,0) scale(.4);
 		}
 		60% {
 			transform:translate3d(-50%,-50%,0) scale(.4);
-		}
+		} */
 		100% {
 			transform:translate3d(-50%,-50%,0) scale(1);
 		}
@@ -371,19 +371,19 @@
 
 	 .hide-toast {
 		display: block;
-		animation: hideToast .5s ease-out forwards;
+		animation: hideToast .2s ease-out forwards;
 	 }
  
 	 @keyframes hideToast {
 		0% {
 			transform:translate3d(-50%,-50%,0) scale(1);
 		}
-		40% {
+		/* 40% {
 			transform:translate3d(-50%,-50%,0) scale(.4);
 		}
 		90% {
 			transform:translate3d(-50%,-50%,0) scale(.4);
-		}
+		} */
 		 100% {
 			 transform:translate3d(-50%,-50%,0) scale(.3);
 		 }
