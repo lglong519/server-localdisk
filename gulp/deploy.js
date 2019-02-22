@@ -38,6 +38,10 @@ const gulpSSH = new GulpSSH({
 const destGlobs = [
 	'./**/*.*',
 	'./**/*',
+	// '!./common/**',
+	// '!./routes/**',
+	'!static',
+	'!./preview/**',
 	'!**/node_modules/**',
 	'!**/logs/**',
 	'!**/gallery/**',
@@ -135,3 +139,27 @@ gulp.task(
 	'deploy:sl',
 	gulp.series('shell.slim')
 );
+
+gulp.task('deploy:single', () => {
+	if (process.env.file) {
+		if (fs.existsSync(process.env.file)) {
+			return gulp
+				.src(process.env.file, { base: '.' })
+				.pipe(gulpSSH.dest(nconf.get('SERVER')));
+		}
+		return Promise.reject('FILE_NOT_EXISTS');
+	}
+	return Promise.reject('MISSING_FILE');
+});
+
+gulp.task('shell.single', () => gulpSSH
+	.shell([
+		`cd ${nconf.get('SERVER')}`,
+		'pm2 start server.json'
+	], {
+		filePath: 'shell.log'
+	})
+	.pipe(gulp.dest('logs')));
+
+// gulp.task('sync', gulp.series('deploy:single', 'shell.single'));
+gulp.task('sync', gulp.series('deploy:single'));

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const formidable = require('formidable');
 const info = require('../../common/info');
 const log = require('../../common/log');
@@ -15,6 +16,9 @@ const upload = (req, res) => {
 	// 文件接收完成
 	form.on('file', (filed, file) => {
 		let fileName = file.path.replace(/upload_.*/, file.name.replace(/\s/g, ''));
+		if (fs.existsSync(fileName)) {
+			fileName = `${fileName.replace(path.extname(fileName), '')}_${Date.now()}${path.extname(fileName)}`;
+		}
 		fs.renameSync(file.path, fileName);
 		log(`upload success: ${fileName}`, req);
 	});

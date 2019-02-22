@@ -184,7 +184,8 @@ window.socket.on(client, data => {
 	}
 });
 
-document.querySelector('.files').onclick = function () {
+document.querySelector('.files').onclick = function (event) {
+	event || (event = window.event);
 	let src = event.target || event.srcElement;
 	if (src.className.includes('check-box')) {
 		src = src.children[0];
@@ -261,6 +262,9 @@ renameFile.onclick = function () {
 			success (res) {
 				processResult(res, '修改成功');
 			},
+			complete (status) {
+				resStatus = status;
+			}
 		});
 	}
 };

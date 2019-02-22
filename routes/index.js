@@ -12,7 +12,7 @@ const expr = expr => {
 	expr.post('/file/new-file', routes.api.File.newFile);
 	expr.put('/file/append', routes.api.File.append);
 	expr.delete('/file/delete', Middlewares.authorize, routes.api.File.remove);
-	expr.patch('/file/rename', routes.api.File.rename);
+	expr.patch('/file/rename', Middlewares.authorize, routes.api.File.rename);
 	expr.post('/folder/download', routes.api.Folder.download);
 	expr.post('/session', routes.api.session.create);
 };
