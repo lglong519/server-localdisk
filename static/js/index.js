@@ -55,6 +55,9 @@ window.onload = function () {
 		let a = document.getElementById(`sort${params[3]}`);
 		a.parentNode.className = 'active';
 		a.href = `?sort=${dir}${params[3]}`;
+		if (!dir) {
+			more.src = more.src.replace('asc', 'desc');
+		}
 	} else {
 		document.getElementById('sortname').className = 'active';
 	}
