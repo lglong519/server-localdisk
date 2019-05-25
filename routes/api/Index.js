@@ -128,4 +128,9 @@ function compare (a, b) {
 	}
 	return a > b ? 1 : -1;
 }
-module.exports = index;
+
+function post (req, res) {
+	res.sendStatus(200);
+}
+module.exports.get = index;
+module.exports.post = post;

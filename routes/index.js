@@ -6,7 +6,8 @@ const routes = {
 const expr = expr => {
 	expr.use(Middlewares.redirect);
 	expr.use(Middlewares.initUrl);
-	expr.get('/*', routes.api.Index);
+	expr.get('/*', routes.api.Index.get);
+	expr.post('/', routes.api.Index.post);
 	expr.post('/upload', routes.api.Upload);
 	expr.post('/file/new-folder', routes.api.File.newFolder);
 	expr.post('/file/new-file', routes.api.File.newFile);

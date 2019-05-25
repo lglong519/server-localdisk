@@ -1,6 +1,7 @@
 {
 	"extends": "teslint/standard",
 	"globals": {
+		"$":false,
 		"ActiveXObject":false,
 		"request":true,
 		"QRCode":true
